@@ -1,0 +1,55 @@
+@use '@angular/material' as mat;
+@use '../../scss/variables' as vars;
+
+.layout-container {
+    height: 100vh;
+}
+
+.sidenav {
+    width: 250px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+mat-toolbar {
+    flex-shrink: 0;
+}
+
+.content {
+    flex: 1;
+    overflow: auto;
+    min-height: 0;
+}
+
+.navbar {
+    top: 0;
+    position: sticky;
+    z-index: 1;
+    background-color: mat.m2-get-color-from-palette(vars.$my-theme-primary);
+    color: white;
+    height: 64px;
+    flex-shrink: 0;
+}
+  
+.drawer-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    background-color: mat.m2-get-color-from-palette(vars.$my-theme-primary);
+}
+
+.drawer-header img {
+    width: 30%;
+    object-fit: cover;
+}

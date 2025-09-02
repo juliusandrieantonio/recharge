@@ -1,0 +1,55 @@
+<div fxFlexFill fxLayoutAlign="center end" fxLayoutGap="10">
+    <mat-card appearance="raised" style="max-height: 80%;">
+        <div fxLayout="column" fxLayoutAlign="center">
+            <div fxFlex="30" fxLayoutAlign="center" class="margin-bottom-12">
+                <img src="../../assets/logo.png" alt="logo" style="width: 40%;">
+            </div>
+            <div fxFlex class="padding-16 login-form" fxLayout="column" fxLayoutGap="14">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" fxLayout="column">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Username</mat-label>
+                        <input matInput formControlName="username" type="text" />
+                    
+                        @if (loginForm.controls.username.errors?.['required'] && loginForm.controls.username.touched) {
+                            <mat-error>Username is required</mat-error>
+                        }
+                    </mat-form-field>
+                  
+                    <mat-form-field appearance="fill">
+                        <mat-label>Password</mat-label>
+                        <input matInput formControlName="password" [type]="isHidden ? 'text': 'password'" />
+                        <button mat-icon-button 
+                            matSuffix 
+                            type="button" 
+                            (click)="isHidden = !isHidden">
+                            <mat-icon>{{ isHidden ? 'visibility_off' : 'visibility' }}</mat-icon>
+                        </button>
+
+                        @if (loginForm.controls.password.errors?.['required'] && loginForm.controls.password.touched) {
+                            <mat-error>Password is required</mat-error>
+                        }
+                        @if (loginForm.controls.password.errors?.['minlength'] && loginForm.controls.password.touched) {
+                            <mat-error>Password must be at least 6 characters</mat-error>
+                        }
+                    </mat-form-field>
+                  
+                    <button mat-raised-button type="submit" style="background-color: #E4F0A0; color: #000000;">
+                        Login
+                    </button>
+                </form>
+                @if (errorMessage) {
+                    <mat-label fxFlex style="text-align: center; color: #FE0000">{{errorMessage}}</mat-label>
+                }
+                <div fxLayout="row" fxLayoutAlign="center center" class="mt-4">
+                    <mat-label>Don't have an account?</mat-label>
+                    <mat-label
+                        routerLink="/signup"
+                        class="signup-btn"
+                    >
+                        Sign Up
+                    </mat-label>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>

@@ -1,0 +1,56 @@
+<mat-drawer-container class="layout-container" autosize>
+    <!-- Side Navigation Drawer -->
+    <mat-drawer #drawer class="sidenav" mode="over">
+      <!-- <div class="drawer-header">
+        <img src="../../assets/logo.png" alt="App Logo" />
+        <div fxLayout="row" fxLayoutAlign="start center" class="drawer-header">
+            <img src="../../assets/logo.png" alt="App Logo" />
+            <div fxLayout="column" fxLayoutAlign="center">
+              <div style="color:white; font-size: 14px">{{'test username'}}</div>
+              <div style="color:white; font-size: 14px">{{'student'}}</div>
+            </div>
+          </div>
+      </div> -->
+      <div fxLayout="row" fxLayoutAlign="start center" class="drawer-header" fxLayoutGap="24">
+        <img src="../../assets/logo.png" alt="App Logo" />
+        <div fxLayout="column" fxLayoutAlign="center">
+          <div style="color:white; font-size: 18px">{{'RECHARGE'}}</div>
+          <div style="color:white; font-size: 14px">{{'Test_Username'}}</div>
+          <div style="color:white; font-size: 12px">{{'student'}}</div>
+        </div>
+      </div>
+  
+      <mat-nav-list>
+        <mat-list-item *ngFor="let route of routes">
+          <mat-icon matListItemIcon svgIcon="{{route.data.icon}}" class="nav-icon">
+          </mat-icon>
+          <span matListItemTitle>
+            {{ route.data.name }}
+          </span>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-drawer>
+  
+    <!-- Main Content Area -->
+    <mat-drawer-content>
+      <div class="main-layout">
+        <!-- Fixed Toolbar -->
+        <mat-toolbar class="navbar">
+          <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon style="color: #f6f7f8">menu</mat-icon>
+          </button>
+          
+        </mat-toolbar>
+  
+        <!-- Scrollable Content -->
+        <div class="content">
+          <mat-progress-bar
+            mode="indeterminate"
+            *ngIf="isLoading"
+          ></mat-progress-bar>
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </mat-drawer-content>
+</mat-drawer-container>
+  

@@ -1,0 +1,59 @@
+@use '@angular/material' as mat;
+
+
+// define the variables since it is not available anymore in v15
+$dark-primary-text: #1F2937;
+$light-primary-text: #fff;
+
+$recharge-palette: (
+  /* lime secondary */
+  50: #E4F0A0,  // light lime
+  100: #6FAF3B, // lime green
+  200: #16A34A, // emerald green
+
+  /* dark neutral */
+  300: #1F2937, // slate gray (dark base)
+
+  /* blue primary */
+  400: #1D4ED8, // royal blue
+  500: #2563EB, // bright blue
+
+  /* purple accent */
+  600: #9333EA, // violet / purple
+  700: #6B21A8, // deep purple (darker accent)
+
+  /* red warning */
+  900: #FE0000,
+
+  /* contrast mapping */
+  contrast: (
+    50: $dark-primary-text,
+    100: $light-primary-text,
+    200: $light-primary-text,
+    300: $light-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+  )
+);
+
+$my-theme-primary: mat.m2-define-palette($recharge-palette, 100);
+$my-theme-accent: mat.m2-define-palette($recharge-palette, 200);
+$my-theme-warn: mat.m2-define-palette($recharge-palette, 900);
+$background-color: #FAFAFA;
+
+$typography: mat.m2-define-typography-config(
+  $font-family: 'Inter, sans-serif'
+);
+
+// defining the theme
+$light-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $my-theme-primary,
+    accent: $my-theme-accent,
+    warn: $my-theme-warn
+  ),
+  typography: $typography,
+  density: 0,
+));

@@ -1,0 +1,15 @@
+@use '@angular/material' as mat;
+@use './scss/variables' as vars;
+@include mat.core();
+
+.mat-primary-color {
+  color: mat.m2-get-color-from-palette(vars.$my-theme-primary) !important;
+}
+
+.mat-warn-color {
+  color: mat.m2-get-color-from-palette(vars.$my-theme-warn) !important;  
+}
+
+@include mat.core-theme(vars.$light-theme);
+@include mat.all-component-themes(vars.$light-theme);
+@include mat.typography-hierarchy(vars.$typography);
