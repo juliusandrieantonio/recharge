@@ -1,12 +1,36 @@
 @use '@angular/material' as mat;
 @use '../../scss/variables' as vars;
 
+.spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 10;
+}
+
 .bg-color {
     background-color: mat.m2-get-color-from-palette(vars.$my-theme-primary);
 }
 
 .login-form {
     background-color: mat.m2-get-color-from-palette(vars.$recharge-palette, 100);
+}
+
+.mobile-login-form {
+    width: 100vw;
+    max-height: 100vh;
+}
+
+.mobile-top-radius {
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    padding-top: 0px;
 }
 
 .signup-btn {

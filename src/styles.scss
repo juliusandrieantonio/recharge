@@ -6,7 +6,15 @@ body {
   margin: 0px;
   padding: 0px;
   height: 100%;
-  background-color: vars.$background-color;
+  width: 100%;
+  font-family: 'Inter';
+  overflow: hidden; // 🚫 disables both horizontal & vertical scroll
+}
+
+:host {
+  display: flex;
+  height: 100%;
+  width: 100%;
 }
 
 .padding-24 {
