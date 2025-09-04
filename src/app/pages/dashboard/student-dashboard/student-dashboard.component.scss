@@ -1,0 +1,66 @@
+@use '@angular/material' as mat;
+@use '../../../../scss/variables' as vars;
+
+:host {
+    height: 100%;
+}
+
+.icon-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50%;
+}
+
+.redeem {
+    background-image: url('../../../../assets/icons/redeem.svg');
+    background-color: mat.m2-get-color-from-palette(vars.$my-theme-primary, 400);
+}
+
+.bottle {
+    background-image: url('../../../../assets/icons/water-bottle.svg');
+    background-color: mat.m2-get-color-from-palette(vars.$recharge-palette, 50);
+}
+
+#recycling-impact {
+    background-color: mat.m2-get-color-from-palette(vars.$recharge-palette, 50);
+    span {
+        color: mat.m2-get-color-from-palette(vars.$recharge-palette, 200);
+    }
+}
+
+
+#waste-reduction {
+    background-color: mat.m2-get-color-from-palette(vars.$recharge-palette, 400);
+    span {
+        color: mat.m2-get-color-from-palette(vars.$recharge-palette, 500);
+    }
+}
+
+#flood-prevention {
+    background-color: mat.m2-get-color-from-palette(vars.$recharge-palette, 600);
+    span {
+        color: mat.m2-get-color-from-palette(vars.$recharge-palette, 700);
+    }
+}
+
+.primary {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.chart {
+    flex: 1; 
+    max-width: 400px;
+    height: 100%;
+}
+.center {
+    height: 100%;
+}
+
+::ng-deep .mat-mdc-progress-bar {
+    height: 12px !important; /* increase thickness */
+    border-radius: 8px;       /* optional: rounded */
+}

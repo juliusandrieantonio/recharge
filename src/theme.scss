@@ -6,6 +6,10 @@
   color: mat.m2-get-color-from-palette(vars.$my-theme-primary) !important;
 }
 
+.mat-accent-color {
+  color: mat.m2-get-color-from-palette(vars.$my-theme-accent) !important;
+}
+
 .mat-warn-color {
   color: mat.m2-get-color-from-palette(vars.$my-theme-warn) !important;  
 }
