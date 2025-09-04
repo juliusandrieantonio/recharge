@@ -7,8 +7,9 @@ body {
   padding: 0px;
   height: 100%;
   width: 100%;
+  background-color: vars.$background-color;
   font-family: 'Inter';
-  overflow: hidden; // 🚫 disables both horizontal & vertical scroll
+  overflow: hidden;
 }
 
 :host {
@@ -23,6 +24,10 @@ body {
 
 .padding-16 {
   padding: 16px;
+}
+
+.padding-14 {
+  padding: 14px;
 }
 
 .margin-24 {
@@ -154,3 +159,19 @@ body {
   margin-left: 10px;
   margin-right: 10px;
 }
+
+.background-color {
+  background-color: vars.$background-color;
+}
+
+.toolbar-white {
+  background-color: vars.$light-primary-text !important ;
+}
+
+.secondary-text {
+  color: vars.$dark-secondary-text;
+  width: 100%;
+  text-align: center;
+  font-size: .8rem;
+}
+

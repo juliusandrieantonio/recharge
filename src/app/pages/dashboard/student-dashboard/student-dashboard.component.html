@@ -1,0 +1,138 @@
+<div fxFlexFill fxLayout="column" class="background-color">
+    <mat-toolbar class="toolbar-white">
+        <h2>Student Dashboard</h2>
+    </mat-toolbar>
+    <div fxLayout="column" fxLayoutGap="24" class="padding-14">
+        <div 
+            fxFlex
+            fxLayout.xs="column" 
+            fxLayout.gt-xs="row"
+            fxLayoutGap="24">
+            <mat-card fxFlex>
+                <mat-card-header>
+                    <div mat-card-avatar class="icon-image bottle"></div>
+                    <mat-card-subtitle>Total Bottles Deposited</mat-card-subtitle>
+                    <mat-card-title>{{data.total_bottles}}</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <mat-progress-bar mode="determinate" [value]="data.total_bottles"></mat-progress-bar>
+                    <p class="secondary-text">Great job! You've made a significant impact.</p>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card fxFlex>
+                <mat-card-header>
+                    <div mat-card-avatar class="icon-image redeem"></div>
+                    <mat-card-subtitle>Available Points</mat-card-subtitle>
+                    <mat-card-title>{{data.available_points}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <button mat-flat-button color="primary" style="width: 100%;">Redeem</button>
+                    <p class="secondary-text">1 point = 10 minutes of charging time</p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <mat-card>
+            <div
+                fxLayout="column" 
+                class="padding-14"
+                >
+                <h3>Your Environmental Impact</h3>
+                <div
+                    fxFlex
+                    fxLayout.xs="column" 
+                    fxLayout.gt-xs="row"
+                    fxLayoutGap="24" 
+                    fxLayoutGap="24" 
+                    >
+                    <mat-card fxFlex id="recycling-impact">
+                        <mat-card-header>
+                            <mat-icon mat-card-avatar svgIcon="scale" color="primary" style="width: 32px; height: 32px;"></mat-icon>
+                            <mat-card-title>Recycling Impact</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <span class="primary">{{data.recycling_impact}}</span>
+                            <p>School chairs can be produced</p>
+                            <p class="secondary-text" style="text-align: start;">50 bottles = 1 school chair</p>
+                        </mat-card-content>
+                    </mat-card>
+    
+                    <mat-card fxFlex id="waste-reduction">
+                        <mat-card-header>
+                            <mat-icon mat-card-avatar svgIcon="water-droplet" color="primary" style="width: 32px; height: 32px;"></mat-icon>
+                            <mat-card-title>Recycling Impact</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <span class="primary">{{data.waste_diverted}}</span>
+                            <p>Plastic waste diverted</p>
+                            <p class="secondary-text" style="text-align: start;">100 bottles = 2 kg of plastic waste</p>
+                        </mat-card-content>
+                    </mat-card>
+    
+                    <mat-card fxFlex id="flood-prevention">
+                        <mat-card-header>
+                            <mat-icon mat-card-avatar svgIcon="leaf" color="primary" style="width: 32px; height: 32px;"></mat-icon>
+                            <mat-card-title>Recycling Impact</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <span class="primary">{{data.flood_risk}}</span>
+                            <p>Reduced flood hazard risk</p>
+                            <p class="secondary-text" style="text-align: start;">Bottles can block drainage systems</p>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+
+                <div
+                    fxFlex
+                    fxLayout.xs="column" 
+                    fxLayout.gt-xs="row"
+                    fxLayoutGap="24"
+                    >
+                    <div
+                        fxFlex
+                        fxLayout="column" 
+                        fxLayoutGap="24" 
+                        fxLayoutGap="24" 
+                        >
+                        <h3>Impact Distribution</h3>
+                        <mat-card class="center">
+                            <mat-card-content class="chart">
+                                <canvas
+                                    style="width: 100%;"
+                                    baseChart
+                                    [labels]="doughnutChartLabels"
+                                    [datasets]="doughnutChartDatasets"
+                                    [options]="doughnutChartOptions"
+                                    [legend]="true"
+                                    [plugins]="doughnutChartPlugins"
+                                    [type]="'doughnut'">
+                                </canvas>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+
+                    <div
+                        fxFlex
+                        fxLayout="column" 
+                        fxLayoutGap="24" 
+                        fxLayoutGap="24"
+                        >
+                        <h3>Monthly Recycling</h3>
+                        <mat-card class="center">
+                            <mat-card-content class="chart">
+                                <canvas baseChart
+                                    [data]="barChartData"
+                                    [options]="barChartOptions"
+                                    [plugins]="barChartPlugins"
+                                    [legend]="false"
+                                    [type]="'bar'">
+                                </canvas>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>

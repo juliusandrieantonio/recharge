@@ -3,11 +3,12 @@
 
 // define the variables since it is not available anymore in v15
 $dark-primary-text: #1F2937;
+$dark-secondary-text: #4B5563;
 $light-primary-text: #fff;
 
 $recharge-palette: (
   /* lime secondary */
-  50: #E4F0A0,  // light lime
+  50: #F0FDF4,  // light lime
   100: #6FAF3B, // lime green
   200: #16A34A, // emerald green
 
@@ -15,12 +16,12 @@ $recharge-palette: (
   300: #1F2937, // slate gray (dark base)
 
   /* blue primary */
-  400: #1D4ED8, // royal blue
+  400: #DBEAFE, // royal blue
   500: #2563EB, // bright blue
 
   /* purple accent */
-  600: #9333EA, // violet / purple
-  700: #6B21A8, // deep purple (darker accent)
+  600: #FAF5FF, // violet / purple
+  700: #9333EA, // deep purple (darker accent)
 
   /* red warning */
   900: #FE0000,
