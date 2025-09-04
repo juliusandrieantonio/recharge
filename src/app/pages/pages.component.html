@@ -1,32 +1,22 @@
 <mat-drawer-container class="layout-container" autosize>
-    <!-- Side Navigation Drawer -->
     <mat-drawer #drawer class="sidenav" mode="over">
-      <!-- <div class="drawer-header">
-        <img src="../../assets/logo.png" alt="App Logo" />
-        <div fxLayout="row" fxLayoutAlign="start center" class="drawer-header">
-            <img src="../../assets/logo.png" alt="App Logo" />
-            <div fxLayout="column" fxLayoutAlign="center">
-              <div style="color:white; font-size: 14px">{{'test username'}}</div>
-              <div style="color:white; font-size: 14px">{{'student'}}</div>
-            </div>
-          </div>
-      </div> -->
       <div fxLayout="row" fxLayoutAlign="start center" class="drawer-header" fxLayoutGap="24">
         <img src="../../assets/logo.png" alt="App Logo" />
         <div fxLayout="column" fxLayoutAlign="center">
-          <div style="color:white; font-size: 18px">{{'RECHARGE'}}</div>
-          <div style="color:white; font-size: 14px">{{'Test_Username'}}</div>
-          <div style="color:white; font-size: 12px">{{'student'}}</div>
+          <div style="color:white; font-size: 14px">{{user?.phone_number}}</div>
+          <div style="color:white; font-size: 12px">{{user?.role}}</div>
+          <div style="color:white; font-size: 12px">{{'v1.0.0.0'}}</div>
         </div>
       </div>
   
       <mat-nav-list>
         <mat-list-item *ngFor="let route of routes">
-          <mat-icon matListItemIcon svgIcon="{{route.data.icon}}" class="nav-icon">
-          </mat-icon>
-          <span matListItemTitle>
-            {{ route.data.name }}
-          </span>
+          <mat-icon matListItemIcon svgIcon="{{route.icon}}"></mat-icon>
+          <span matListItemTitle>{{ route.name }}</span>
+        </mat-list-item>
+        <mat-list-item (click)="logout()">
+          <mat-icon matListItemIcon svgIcon="logout"></mat-icon>
+          <span matListItemTitle>Logout</span>
         </mat-list-item>
       </mat-nav-list>
     </mat-drawer>

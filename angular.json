@@ -29,6 +29,11 @@
               "src/favicon.ico",
               "src/assets",
               {
+                "glob": "mdi.svg",
+                "input": "node_modules/@mdi/angular-material/",
+                "output": "./assets"
+              },
+              {
                 "glob": "**/*",
                 "input": "public"
               }
@@ -89,6 +94,11 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+              {
+                "glob": "mdi.svg",
+                "input": "node_modules/@mdi/angular-material/",
+                "output": "./assets"
+              },
               {
                 "glob": "**/*",
                 "input": "public"

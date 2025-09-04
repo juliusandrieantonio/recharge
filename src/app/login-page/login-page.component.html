@@ -1,10 +1,23 @@
-<div fxFlexFill fxLayoutAlign="center end" fxLayoutGap="10">
-    <mat-card appearance="raised" style="max-height: 80%;">
-        <div fxLayout="column" fxLayoutAlign="center">
-            <div fxFlex="30" fxLayoutAlign="center" class="margin-bottom-12">
-                <img src="../../assets/logo.png" alt="logo" style="width: 40%;">
+<div fxFlexFill fxLayoutAlign="center center" fxLayoutAlign.xs="center end" fxLayoutGap="10">   
+    <mat-card appearance="raised" style="max-height: 90%;">
+        <div fxFlex fxLayout="column" fxLayoutAlign="center">
+            @if (isLoading) {
+                <div class="spinner-overlay">
+                  <mat-progress-spinner
+                    mode="indeterminate"
+                    diameter="50"
+                    strokeWidth="5"
+                    color="primary">
+                  </mat-progress-spinner>
+                </div>
+            }
+            <div fxFlex fxLayoutAlign="center" class="margin-bottom-12">
+                <img src="../../assets/logo.png" alt="logo" style="width: 50%; object-fit: contain;">
             </div>
-            <div fxFlex class="padding-16 login-form" fxLayout="column" fxLayoutGap="14">
+            <div class="padding-24 login-form" fxLayout="column" fxLayoutGap="14" [ngClass]="{'mobile-top-radius': isMobile, 'mobile-login-form': isMobile}">
+                @if (isMobile) {
+                    <h1 style="color: white; text-align: center;">Login</h1>
+                }
                 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" fxLayout="column">
                     <mat-form-field appearance="fill">
                         <mat-label>Username</mat-label>
@@ -33,14 +46,14 @@
                         }
                     </mat-form-field>
                   
-                    <button mat-raised-button type="submit" style="background-color: #E4F0A0; color: #000000;">
+                    <button mat-raised-button [disabled]="isLoading" type="submit" style="background-color: #E4F0A0; color: #000000;">
                         Login
                     </button>
                 </form>
                 @if (errorMessage) {
-                    <mat-label fxFlex style="text-align: center; color: #FE0000">{{errorMessage}}</mat-label>
+                    <mat-label style="text-align: center; color: #FE0000; word-wrap: break-word;">{{errorMessage}}</mat-label>
                 }
-                <div fxLayout="row" fxLayoutAlign="center center" class="mt-4">
+                <div fxLayout="row" fxLayoutAlign="center center">
                     <mat-label>Don't have an account?</mat-label>
                     <mat-label
                         routerLink="/signup"

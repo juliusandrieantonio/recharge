@@ -45,11 +45,12 @@ mat-toolbar {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 150px;
+    height: 120px;
     background-color: mat.m2-get-color-from-palette(vars.$my-theme-primary);
 }
 
 .drawer-header img {
+    margin-left: 14px;
     width: 30%;
     object-fit: cover;
 }

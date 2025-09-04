@@ -5,11 +5,15 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   User,
-  onAuthStateChanged,
-  setPersistence,
-  browserLocalPersistence
+  onAuthStateChanged
 } from '@angular/fire/auth';
-import { BehaviorSubject, filter, firstValueFrom, lastValueFrom } from 'rxjs';
+
+import { 
+  setPersistence, 
+  browserLocalPersistence 
+} from 'firebase/auth';  
+
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 
