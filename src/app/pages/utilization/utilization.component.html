@@ -1,0 +1,66 @@
+<div fxFlexFill fxLayout="column" class="padding-14">
+    <mat-card class="horizontal-padding padding-bottom-14">
+        <h3>Platic Bottle Utilization</h3>
+        <div fxFlex fxLayout.xs="column" fxLayout.gt-xs="row" fxLayoutGap="24">
+            <mat-card fxFlex appearance="outlined">
+                <mat-card-header class="background-color padding-bottom-14">
+                    <mat-card-title>Option A: School Furniture</mat-card-title>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="padding-top-14" fxLayout="column" fxLayoutGap="24">
+                    <div fxFlex fxLayout.xs="column" fxLayout.gt-xs="row" fxLayoutGap="34">
+                        <div fxFlex fxLayout="column" fxLayoutGap="14">
+                            <span>Bottles Used</span>
+                            <strong>{{data.bottle_used}}</strong>
+                        </div>
+                        <div fxFlex fxLayout="column" fxLayoutGap="14">
+                            <span>Outcome</span>
+                            <strong class="green-color">{{data.bottle_used / data.armchair_conversion}} armchairs</strong>
+                        </div>
+                    </div>
+                    <mat-progress-bar mode="determinate" [value]="(data.bottle_used / data.total_bottles) * 100"></mat-progress-bar>
+                    <span fxFlex fxLayoutAlign="end" class="secondary-text">{{(data.bottle_used / data.total_bottles) * 100}}% of total collection</span>
+    
+                    <div fxLayout="column" fxLayoutGap="14" class="green-background padding-14">
+                        <h4 class="margin-top-12">Environmental Impact</h4>
+                        <span class="secondary-text" style="text-align: start;">
+                            Converting 5,000 bottles into 
+                            50 armchairs reduces 
+                            approximately 100kg of plastic 
+                            waste and provides sustainable 
+                            furniture for the school.
+                        </span>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            
+            <mat-card fxFlex appearance="outlined">
+                <mat-card-header class="background-color padding-bottom-14">
+                    <mat-card-title>Option B: Sell for Funds</mat-card-title>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="padding-top-14" fxLayout="column" fxLayoutGap="24">
+                    <div fxFlex fxLayout.xs="column" fxLayout.gt-xs="row" fxLayoutGap="34">
+                        <div fxFlex fxLayout="column" fxLayoutGap="14">
+                            <span>Bottles Used</span>
+                            <strong>{{data.bottle_used}}</strong>
+                        </div>
+                        <div fxFlex fxLayout="column" fxLayoutGap="14">
+                            <span>Outcome</span>
+                            <strong class="green-color">₱{{data.bottle_used / data.funds_conversion}} Generated</strong>
+                        </div>
+                    </div>
+                    <mat-progress-bar mode="determinate" [value]="(data.bottle_used / data.total_bottles) * 100"></mat-progress-bar>
+                    <span fxFlex fxLayoutAlign="end" class="secondary-text">{{(data.bottle_used / data.total_bottles) * 100}}% of total collection</span>
+    
+                    <div fxLayout="column" fxLayoutGap="14" class="green-background padding-14">
+                        <h4 class="margin-top-12">Financial Impact</h4>
+                        <span class="secondary-text" style="text-align: start;">
+                            Selling 7,340 bottles generated ₱18,350 which can be used to fund maintenance of the EcoCharge machines and other sustainability initiatives.
+                        </span>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-card>
+</div>

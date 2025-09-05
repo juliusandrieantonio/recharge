@@ -1,1 +1,32 @@
-<p>redeem works!</p>
+<div fxFlexFill fxLayout="column" class="padding-16">
+    <mat-card appearance="raised">
+        <mat-card-content fxFlex fxLayout="column" fxLayoutGap="14">
+            <h3 class="margin-bottom-12">Redemption Point</h3>
+            <span>
+                You have <span class="blue-color">{{ data.available_points }} points</span>  to redeem
+            </span>            
+            <span class="secondary-text" fxLayoutAlign="start">1 point = 10 minutes of charging time</span>
+
+            <div fxFlex fxLayout="column" fxLayoutGap="14" class="blue-background horizontal-padding margin-top-14">
+                <h4>How to Redeem</h4>
+                <ul>
+                    <li>
+                        Go to any EcoCharge machine on campus
+                    </li>
+                    <li>
+                        Tap "Redeem Points" on the machine's screen
+                    </li>
+                    <li>
+                        Enter your phone number and PIN
+                    </li>
+                    <li>
+                        Select how many points you want to use
+                    </li>
+                    <li>
+                        Connect your device to the available charging slot
+                    </li>
+                </ul>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

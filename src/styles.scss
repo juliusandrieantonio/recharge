@@ -37,6 +37,11 @@ body {
 .margin-16 {
   padding: 16px;
 }
+
+.margin-12 {
+  padding: 16px;
+}
+
 .float-right {
   float: right;
   margin-right:10px;
@@ -45,6 +50,10 @@ body {
 // extra styles
 .margin-top-12 {
   margin-top: 12px !important;
+}
+
+.margin-top-14 {
+  margin-top: 14px !important;
 }
 
 .margin-top-16 {
@@ -96,6 +105,10 @@ body {
   padding-top: 12px !important;
 }
 
+.padding-top-14 {
+  padding-top: 16px !important;
+}
+
 .padding-top-16 {
   padding-top: 16px !important;
 }
@@ -132,6 +145,10 @@ body {
   padding-bottom: 12px !important;
 }
 
+.padding-bottom-14 {
+  padding-bottom: 14px !important;
+}
+
 .padding-bottom-16 {
   padding-bottom: 16px !important;
 }
@@ -141,23 +158,23 @@ body {
 }
 
 .vertical-padding {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 14px;
+  padding-bottom: 14px;
 }
 
 .horizontal-padding {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 14px;
+  padding-right: 14px;
 }
 
 .vertical-margin {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 14px;
+  margin-bottom: 14px;
 }
 
 .horizontal-margin {
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 14px;
+  margin-right: 14px;
 }
 
 .background-color {
@@ -175,3 +192,45 @@ body {
   font-size: .8rem;
 }
 
+.red-pill {
+  width: 100%;
+  color: vars.$light-primary-text;
+  background-color: vars.$error-color;
+  padding: 8px;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.green-pill {
+  width: 100%;
+  color: vars.$light-primary-text;
+  background-color: vars.$success-color;
+  padding: 8px;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.warning-pill {
+  width: 100%;
+  color: vars.$light-primary-text;
+  background-color: vars.$warning-color;
+  padding: 8px;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.blue-color {
+  color: mat.m2-get-color-from-palette(vars.$my-theme-primary, 500);
+}
+
+.blue-background {
+  background-color: mat.m2-get-color-from-palette(vars.$my-theme-primary, 400);
+}
+
+.green-color {
+  color: mat.m2-get-color-from-palette(vars.$my-theme-primary, 200);
+}
+
+.green-background {
+  background-color: mat.m2-get-color-from-palette(vars.$my-theme-primary, 50);
+}

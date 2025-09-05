@@ -7,6 +7,11 @@ export const routes: Routes = [
       component: PagesComponent,
       children: [
         {
+          path: '',
+          pathMatch: 'full',
+          redirectTo: 'dashboard',
+        },
+        {
           path: 'dashboard',
           loadComponent: () =>
             import('./dashboard/dashboard.component').then(m => m.DashboardComponent),
@@ -25,6 +30,11 @@ export const routes: Routes = [
           path: 'redeem',
           loadComponent: () =>
             import('./redeem/redeem.component').then(m => m.RedeemComponent),
+        },
+        {
+          path: 'utilization',
+          loadComponent: () =>
+            import('./utilization/utilization.component').then(m => m.UtilizationComponent),
         },
       ],
     },

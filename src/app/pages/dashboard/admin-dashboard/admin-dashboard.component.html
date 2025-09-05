@@ -1,1 +1,88 @@
-<p>admin-dashboard works!</p>
+<div fxFlexFill fxLayout="column" class="background-color">
+    <div fxLayout="column" fxLayoutGap="24" class="padding-16 background-color">
+        <div 
+            fxFlex
+            fxLayout.xs="column" 
+            fxLayout.gt-xs="row"
+            fxLayoutGap="24">
+            <mat-card fxFlex>
+                <mat-card-header>
+                    <div mat-card-avatar class="icon-image bottle"></div>
+                    <mat-card-subtitle>Total Bottles</mat-card-subtitle>
+                    <mat-card-title>{{data.total_bottles}}</mat-card-title>
+                </mat-card-header>
+            </mat-card>
+
+            <mat-card fxFlex>
+                <mat-card-header>
+                    <div mat-card-avatar class="icon-image person"></div>
+                    <mat-card-subtitle>Active Students</mat-card-subtitle>
+                    <mat-card-title>{{data.active_students}}</mat-card-title>
+                </mat-card-header>
+            </mat-card>
+
+            <mat-card fxFlex>
+                <mat-card-header>
+                    <div mat-card-avatar class="icon-image redeem"></div>
+                    <mat-card-subtitle>Total Redemptions</mat-card-subtitle>
+                    <mat-card-title>{{data.total_redemptions}}</mat-card-title>
+                </mat-card-header>
+            </mat-card>
+        </div>
+        <mat-card class="horizontal-padding padding-bottom-14">
+            <h3>Machine Status</h3>
+            <mat-card fxFlex appearance="outlined">
+                <mat-card-header class="background-color padding-bottom-14">
+                    <mat-card-title>Recycling Impact</mat-card-title>
+                    <mat-card-subtitle>{{data.machine.name}}</mat-card-subtitle>
+                    <span fxFlex></span>
+                    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                        <mat-icon [color]="data.machine.is_active ? 'primary': 'warn'">{{data.machine.is_active ? 'check_circle': 'cancel'}}</mat-icon>
+                        <span>{{data.machine.is_active ? 'Online': 'Offline'}}</span>
+                    </div>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="padding-top-14" fxLayout="column" fxLayoutGap="24">
+                    <div fxFlex fxLayout.xs="column" fxLayout.gt-xs="row" fxLayoutGap="34">
+                        <div fxFlex fxLayout="column" fxLayoutGap="14">
+                            <div fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                                <mat-icon svgIcon="bin"></mat-icon>
+                                <span>Bin Level</span>
+                            </div>
+                            <span [ngClass]="getMachineStatus(data.machine.level).cssClass">
+                                {{ getMachineStatus(data.machine.level).label }}
+                            </span>
+                        </div>
+                        <div fxFlex fxLayout="column" fxLayoutGap="14">
+                            <div fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                                <mat-icon svgIcon="redeem"></mat-icon>
+                                <span>Charging Slots</span>
+                            </div>
+                            <span [ngClass]="{
+                                'green-pill': getChargerUsage() < 50,
+                                'warning-pill': getChargerUsage() >= 50 && getChargerUsage() <= 90,
+                                'red-pill': getChargerUsage() > 90
+                            }">
+                                {{data.machine.occupied_charger}} / {{data.machine.total_charger}} available
+                            </span>
+                        </div>
+                    </div>
+                    <span fxFlex fxLayoutAlign="center" class="secondary-text">Last updated {{data.machine.last_update}}</span>
+                </mat-card-content>
+            </mat-card>
+        </mat-card>
+        <mat-card>
+            <h3 class="horizontal-padding">Collection Trends</h3>
+            <mat-card-content class="chart">
+                <canvas
+                    baseChart
+                    [data]="barChartData"
+                    [options]="barChartOptions"
+                    [plugins]="barChartPlugins"
+                    [legend]="false"
+                    [type]="'bar'">
+                </canvas>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
