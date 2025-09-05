@@ -43,6 +43,9 @@ $my-theme-primary: mat.m2-define-palette($recharge-palette, 100);
 $my-theme-accent: mat.m2-define-palette($recharge-palette, 200);
 $my-theme-warn: mat.m2-define-palette($recharge-palette, 900);
 $background-color: #FAFAFA;
+$success-color: #16A34A;
+$error-color: #FE0000;
+$warning-color: #F59E0B;
 
 $typography: mat.m2-define-typography-config(
   $font-family: 'Inter, sans-serif'

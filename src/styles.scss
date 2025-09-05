@@ -96,6 +96,10 @@ body {
   padding-top: 12px !important;
 }
 
+.padding-top-14 {
+  padding-top: 16px !important;
+}
+
 .padding-top-16 {
   padding-top: 16px !important;
 }
@@ -130,6 +134,10 @@ body {
 
 .padding-bottom-12 {
   padding-bottom: 12px !important;
+}
+
+.padding-bottom-14 {
+  padding-bottom: 14px !important;
 }
 
 .padding-bottom-16 {
@@ -175,3 +183,29 @@ body {
   font-size: .8rem;
 }
 
+.red-pill {
+  width: 100%;
+  color: vars.$light-primary-text;
+  background-color: vars.$error-color;
+  padding: 8px;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.green-pill {
+  width: 100%;
+  color: vars.$light-primary-text;
+  background-color: vars.$success-color;
+  padding: 8px;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.warning-pill {
+  width: 100%;
+  color: vars.$light-primary-text;
+  background-color: vars.$warning-color;
+  padding: 8px;
+  border-radius: 14px;
+  text-align: center;
+}
