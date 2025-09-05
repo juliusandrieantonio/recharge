@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { RealtimeDbService } from '../services/realtime-db/realtime-db.service';
 import { Module } from '../models/module';
 import { UserInfo } from '../models/user-info';
+import { StringHelper } from '../helper/string-helper';
 
 @Component({
   selector: 'app-pages',
@@ -35,9 +36,10 @@ import { UserInfo } from '../models/user-info';
   styleUrl: './pages.component.scss'
 })
 export class PagesComponent implements OnInit {
-  public isLoading: boolean = false;
+  public isLoading: boolean = true;
   public routes: Module[] = []
   public user: UserInfo | undefined;
+  public currentRoute: string = "Dashboard";
 
   constructor(
     private authService: AuthService,
@@ -55,8 +57,21 @@ export class PagesComponent implements OnInit {
         this.routes = Object.values(modules)
           .filter((m: any) => m.roles[user.role])
           .map((m: any) => m.data);
+        this.isLoading = false;
       });
     });
+    this.getRoute()
+    this.router.events.subscribe(() => {
+      this.getRoute()
+    });
+  }
+
+  public getRoute() {
+    const urlSegments = this.router.url.split('/');
+    this.currentRoute = urlSegments[urlSegments.length - 1] || '';
+  }
+  public normalize(text: string | undefined): string | undefined {
+    return StringHelper.toPascalCase(text)
   }
 
   public logout() {

@@ -4,13 +4,14 @@
         <img src="../../assets/logo.png" alt="App Logo" />
         <div fxLayout="column" fxLayoutAlign="center">
           <div style="color:white; font-size: 14px">{{user?.phone_number}}</div>
-          <div style="color:white; font-size: 12px">{{user?.role}}</div>
+          <div style="color:white; font-size: 12px">{{normalize(user?.role)}}</div>
           <div style="color:white; font-size: 12px">{{'v1.0.0.0'}}</div>
         </div>
       </div>
   
       <mat-nav-list>
-        <mat-list-item *ngFor="let route of routes" (click)="router.navigate([route.path])">
+        <mat-list-item *ngFor="let route of routes" (click)="router.navigate([route.path])
+        ">
           <mat-icon matListItemIcon svgIcon="{{route.icon}}"></mat-icon>
           <span matListItemTitle>{{ route.name }}</span>
         </mat-list-item>
@@ -33,11 +34,14 @@
         </mat-toolbar>
   
         <!-- Scrollable Content -->
-        <div class="content">
+        <div class="content" *ngIf="!isLoading">
           <mat-progress-bar
             mode="indeterminate"
             *ngIf="isLoading"
           ></mat-progress-bar>
+          <div class="toolbar-white horizontal-padding">
+              <h2>{{normalize(user?.role)}} {{normalize(currentRoute)}}</h2>
+          </div>
           <router-outlet></router-outlet>
         </div>
       </div>

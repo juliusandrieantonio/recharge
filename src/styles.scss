@@ -37,6 +37,11 @@ body {
 .margin-16 {
   padding: 16px;
 }
+
+.margin-12 {
+  padding: 16px;
+}
+
 .float-right {
   float: right;
   margin-right:10px;
@@ -45,6 +50,10 @@ body {
 // extra styles
 .margin-top-12 {
   margin-top: 12px !important;
+}
+
+.margin-top-14 {
+  margin-top: 14px !important;
 }
 
 .margin-top-16 {
@@ -208,4 +217,20 @@ body {
   padding: 8px;
   border-radius: 14px;
   text-align: center;
+}
+
+.blue-color {
+  color: mat.m2-get-color-from-palette(vars.$my-theme-primary, 500);
+}
+
+.blue-background {
+  background-color: mat.m2-get-color-from-palette(vars.$my-theme-primary, 400);
+}
+
+.green-color {
+  color: mat.m2-get-color-from-palette(vars.$my-theme-primary, 200);
+}
+
+.green-background {
+  background-color: mat.m2-get-color-from-palette(vars.$my-theme-primary, 50);
 }
