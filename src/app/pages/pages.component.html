@@ -10,7 +10,7 @@
       </div>
   
       <mat-nav-list>
-        <mat-list-item *ngFor="let route of routes">
+        <mat-list-item *ngFor="let route of routes" (click)="router.navigate([route.path])">
           <mat-icon matListItemIcon svgIcon="{{route.icon}}"></mat-icon>
           <span matListItemTitle>{{ route.name }}</span>
         </mat-list-item>

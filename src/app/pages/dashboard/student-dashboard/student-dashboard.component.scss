@@ -64,3 +64,9 @@
     height: 12px !important; /* increase thickness */
     border-radius: 8px;       /* optional: rounded */
 }
+
+#redeem-btn {
+    background-color: mat.m2-get-color-from-palette(vars.$my-theme-primary, 500);
+    color: vars.$light-primary-text;
+    width: 100%;
+}

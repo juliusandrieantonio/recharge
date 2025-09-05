@@ -41,7 +41,7 @@ export class PagesComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
+    public router: Router,
     private realtimeDB: RealtimeDbService
   ) {
 
