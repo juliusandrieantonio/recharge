@@ -23,7 +23,7 @@ import { MatDividerModule } from "@angular/material/divider";
     MatButtonModule,
     BaseChartDirective,
     MatDividerModule
-],
+  ],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss'
 })

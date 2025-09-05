@@ -1,1 +1,56 @@
-<p>recycling-dashboard works!</p>
+<div fxFlexFill fxLayout="column" class="background-color">
+    <div class="toolbar-white horizontal-padding">
+        <h2>Recycling Facility Dashboard</h2>
+    </div>
+    <div fxLayout="column" fxLayoutGap="24" class="padding-14 background-color">
+        <div 
+            fxFlex
+            fxLayout.xs="column" 
+            fxLayout.gt-xs="row"
+            fxLayoutGap="24">
+            <mat-card fxFlex>
+                <mat-card-header>
+                    <div mat-card-avatar class="icon-image bottle"></div>
+                    <mat-card-subtitle>Total Bottles Collected</mat-card-subtitle>
+                    <mat-card-title>{{data.total_bottles_collected}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxFlex fxLayout="column" fxLayoutGap="14">
+                        <span class="secondary-text" fxLayoutAlign="start">Monthly Progress</span>
+                        <app-progress-bar [progress]="(data.total_bottles_collected / data.monthly_target) * 100"></app-progress-bar>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card fxFlex>
+                <mat-card-header>
+                    <div mat-card-avatar class="icon-image person"></div>
+                    <mat-card-subtitle>Active Student Participants</mat-card-subtitle>
+                    <mat-card-title>{{data.active_students}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxFlex fxLayout="column" fxLayoutGap="14">
+                        <span class="secondary-text" fxLayoutAlign="start">Growth</span>
+                        <div fxFlex fxLayoutGap="10" fxLayout="row" fxLayoutAlign="center center">
+                            <mat-icon svgIcon="scale" color="primary"></mat-icon>
+                            <span class="green-color">{{((data.total_bottles_collected - data.total_bottles_collected_last_month) / 100) * 100}}% vs last month</span>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <mat-card>
+            <h3 class="horizontal-padding">Collection Trends</h3>
+            <mat-card-content class="chart">
+                <canvas
+                    baseChart
+                    [data]="barChartData"
+                    [options]="barChartOptions"
+                    [plugins]="barChartPlugins"
+                    [legend]="false"
+                    [type]="'bar'">
+                </canvas>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
