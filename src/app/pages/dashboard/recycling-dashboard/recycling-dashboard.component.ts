@@ -14,6 +14,7 @@ import { AdminService } from '../../../services/admin/admin.service';
 import { DashboardData } from '../../../models/dashboard-data';
 import { MONTHS_NAME } from '../../../constants/constants';
 import { getPreviousYearMonth, getYear, getYearMonth } from '../../../helper/date-helper';
+import { forkJoin, map, Subject, switchMap, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -34,13 +35,20 @@ import { getPreviousYearMonth, getYear, getYearMonth } from '../../../helper/dat
   styleUrl: './recycling-dashboard.component.scss'
 })
 export class RecyclingDashboardComponent {
-  public data!: DashboardData;
+  public data: DashboardData = {
+    monthly_target: 0,
+    total_active_students: 0,
+    total_bottles: 0,
+    total_redemptions: 0,
+    total_bottles_collected_last_month: 0
+  };
   public barChartPlugins = [];
   public barChartData: ChartConfiguration<'bar'>['data'] | undefined;
   public barChartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
     maintainAspectRatio: false
   };
+  private destroy$ = new Subject<void>();
 
   constructor(
       private adminService: AdminService
@@ -49,14 +57,22 @@ export class RecyclingDashboardComponent {
   }
   
   ngOnInit(): void {
-    this.adminService.getDashboard(getYearMonth()).subscribe(data => {
-      this.data = data;
+    
+    this.adminService.getDashboard(getYearMonth())
+    .pipe(
+      switchMap(currentMonth =>
+        this.adminService.getDashboard(getPreviousYearMonth()).pipe(
+          map(prevMonth => ({ currentMonth, prevMonth }))
+        )
+      ),
+      takeUntil(this.destroy$)  // automatically unsubscribe on destroy
+    )
+    .subscribe(({ currentMonth, prevMonth }) => {
+      this.data = currentMonth;
+      this.data.total_bottles_collected_last_month = prevMonth.total_bottles;
     });
 
-    this.adminService.getDashboard(getPreviousYearMonth()).subscribe(data => {
-      this.data.total_bottles_collected_last_month = data.total_bottles;
-      console.log(data.total_bottles_collected_last_month)
-    });
+    
 
     this.adminService.getMonthlyContrib(getYear()).subscribe(data => {
       const labels = Object.values(data).map(key => {
@@ -74,5 +90,10 @@ export class RecyclingDashboardComponent {
         ]
       };
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
