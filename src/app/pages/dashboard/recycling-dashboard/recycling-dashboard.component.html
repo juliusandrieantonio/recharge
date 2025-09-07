@@ -9,12 +9,12 @@
                 <mat-card-header>
                     <div mat-card-avatar class="icon-image bottle"></div>
                     <mat-card-subtitle>Total Bottles Collected</mat-card-subtitle>
-                    <mat-card-title>{{data.total_bottles_collected}}</mat-card-title>
+                    <mat-card-title>{{data.total_bottles}}</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                     <div fxFlex fxLayout="column" fxLayoutGap="14">
                         <span class="secondary-text" fxLayoutAlign="start">Monthly Progress</span>
-                        <app-progress-bar [progress]="(data.total_bottles_collected / data.monthly_target) * 100"></app-progress-bar>
+                        <app-progress-bar [progress]="(data.total_bottles / data.monthly_target) * 100"></app-progress-bar>
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -23,14 +23,14 @@
                 <mat-card-header>
                     <div mat-card-avatar class="icon-image person"></div>
                     <mat-card-subtitle>Active Student Participants</mat-card-subtitle>
-                    <mat-card-title>{{data.active_students}}</mat-card-title>
+                    <mat-card-title>{{data.total_active_students}}</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                     <div fxFlex fxLayout="column" fxLayoutGap="14">
                         <span class="secondary-text" fxLayoutAlign="start">Growth</span>
-                        <div fxFlex fxLayoutGap="10" fxLayout="row" fxLayoutAlign="center center">
+                        <div fxFlex fxLayoutGap="10" fxLayout="row" fxLayoutAlign="start center">
                             <mat-icon svgIcon="scale" color="primary"></mat-icon>
-                            <span class="green-color">{{((data.total_bottles_collected - data.total_bottles_collected_last_month) / 100) * 100}}% vs last month</span>
+                            <span class="green-color">{{((data.total_bottles - data.total_bottles_collected_last_month) / 100) * 100}}% vs last month</span>
                         </div>
                     </div>
                 </mat-card-content>

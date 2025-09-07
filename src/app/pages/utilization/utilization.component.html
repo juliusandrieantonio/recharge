@@ -15,11 +15,11 @@
                         </div>
                         <div fxFlex fxLayout="column" fxLayoutGap="14">
                             <span>Outcome</span>
-                            <strong class="green-color">{{data.bottle_used / data.armchair_conversion}} armchairs</strong>
+                            <strong class="green-color">{{getArmChairs(data.bottle_used, data.armchair_conversion)}} armchairs</strong>
                         </div>
                     </div>
-                    <mat-progress-bar mode="determinate" [value]="(data.bottle_used / data.total_bottles) * 100"></mat-progress-bar>
-                    <span fxFlex fxLayoutAlign="end" class="secondary-text">{{(data.bottle_used / data.total_bottles) * 100}}% of total collection</span>
+                    <mat-progress-bar mode="determinate" [value]="(data.bottle_used / data.total_bottles_collected) * 100"></mat-progress-bar>
+                    <span fxFlex fxLayoutAlign="end" class="secondary-text">{{(data.bottle_used / data.total_bottles_collected) * 100}}% of total collection</span>
     
                     <div fxLayout="column" fxLayoutGap="14" class="green-background padding-14">
                         <h4 class="margin-top-12">Environmental Impact</h4>
@@ -50,8 +50,8 @@
                             <strong class="green-color">₱{{data.bottle_used / data.funds_conversion}} Generated</strong>
                         </div>
                     </div>
-                    <mat-progress-bar mode="determinate" [value]="(data.bottle_used / data.total_bottles) * 100"></mat-progress-bar>
-                    <span fxFlex fxLayoutAlign="end" class="secondary-text">{{(data.bottle_used / data.total_bottles) * 100}}% of total collection</span>
+                    <mat-progress-bar mode="determinate" [value]="(data.bottle_used / data.total_bottles_collected) * 100"></mat-progress-bar>
+                    <span fxFlex fxLayoutAlign="end" class="secondary-text">{{(data.bottle_used / data.total_bottles_collected) * 100}}% of total collection</span>
     
                     <div fxLayout="column" fxLayoutGap="14" class="green-background padding-14">
                         <h4 class="margin-top-12">Financial Impact</h4>

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
+import { StudentService } from '../../services/student/student.service';
 
 @Component({
   selector: 'app-redeem',
@@ -12,8 +13,16 @@ import { FlexLayoutModule } from '@ngbracket/ngx-layout';
   templateUrl: './redeem.component.html',
   styleUrl: './redeem.component.scss'
 })
-export class RedeemComponent {
-  public data = {
-    available_points: 56
+export class RedeemComponent implements OnInit{
+  public availablePoints!: number;
+  constructor(
+    private studentService: StudentService
+  ) {}
+  
+  ngOnInit(): void {
+    this.studentService.getStudent().subscribe((data) => {
+      this.availablePoints = data.available_points;
+    });
   }
+  
 }

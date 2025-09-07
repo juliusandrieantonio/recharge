@@ -53,8 +53,11 @@
 
 .chart {
     flex: 1; 
-    max-width: 400px;
     height: 100%;
+}
+
+.doughnut {
+    max-width: 500px;
 }
 .center {
     height: 100%;

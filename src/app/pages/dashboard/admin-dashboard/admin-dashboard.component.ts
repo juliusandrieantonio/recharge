@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FlexLayoutModule } from "@ngbracket/ngx-layout";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatCardModule } from '@angular/material/card';
@@ -9,7 +9,11 @@ import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { MatDividerModule } from "@angular/material/divider";
-
+import { AdminService } from '../../../services/admin/admin.service';
+import { DashboardData } from '../../../models/dashboard-data';
+import { MONTHS_NAME } from '../../../constants/constants';
+import { Machine } from '../../../models/machine';
+import { getYear, getYearMonth } from '../../../helper/date-helper';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -27,69 +31,49 @@ import { MatDividerModule } from "@angular/material/divider";
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss'
 })
-export class AdminDashboardComponent {
-  public data = {
-    total_bottles: 10,
-    active_students: 100,
-    total_redemptions: 500,
-    recycling_impact: "5",
-    waste_diverted: "0.3 kg",
-    flood_risk: "13%",
-    machine: {
-      is_active: true,
-      name: "CEIT Veranda",
-      level: 70,
-      occupied_charger: 2,
-      total_charger: 5,
-      last_update: "09/05/2025 21:20"
-    }
-  }
-
-  public doughnutChartLabels: string[] = [ 'Waste (kg)', 'School Chairs', 'CO2 Reduction' ];
-  public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
-      { 
-        data: [ 350, 450, 100 ],
-        backgroundColor: ['#3B82F6', "#10B981", '#6366F1']
-      }
-    ];
-
-  public doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
-    responsive: true,
-    maintainAspectRatio: true,
-    plugins: {
-      legend: { position: 'top' },
-      datalabels: {
-        color: '#fff',
-        formatter: (value, ctx) => {
-          const dataset = ctx.chart.data.datasets[0].data as number[];
-          const total = dataset.reduce((acc, val) => acc + val, 0);
-          const percentage = ((value / total) * 100).toFixed(1) + '%';
-          return percentage;
-        }
-      }
-    }
-  };
-
-  doughnutChartPlugins = [ChartDataLabels];
-
+export class AdminDashboardComponent implements OnInit {
+  public data: DashboardData | undefined;
+  public machines: Machine[] | undefined;
   public barChartPlugins = [];
-
-  public barChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: [ 'Jan', 'Feb', 'March', 'April', 'May', 'June', 'July' ],
-    datasets: [
-      { 
-        data: [ 65, 59, 80, 81, 56, 55, 40 ],
-        backgroundColor: ['#10B981']
-      }
-      
-    ]
-    
-  };
-
+  public barChartData: ChartConfiguration<'bar'>['data'] | undefined;
   public barChartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
     maintainAspectRatio: false // let it fill width & height
   };
+
+  constructor(
+    private adminService: AdminService
+  ) {
+    
+  }
+
+  ngOnInit(): void {
+    this.adminService.getDashboard(getYearMonth()).subscribe(data => {
+      this.data = data;
+    });
+
+    this.adminService.getMonthlyContrib(getYear()).subscribe(data => {
+      const labels = Object.values(data).map(key => {
+        const monthIndex = parseInt(key.month, 10) - 1;
+        return MONTHS_NAME[monthIndex] ?? key.month;
+      });
+      this.barChartData = {
+        labels: labels,
+        datasets: [
+          {
+            data: Object.values(data).map((entry: any) => entry.bottles),
+            label: 'Bottles',
+            backgroundColor: ['#10B981'],
+          }
+        ]
+      };
+    });
+
+    this.adminService.getMachines().subscribe(data => {
+      console.log(data)
+      this.machines = data;
+    })
+  }
 
   public getMachineStatus(level: number): { label: string, cssClass: string } {
     if (level >= 100) {
@@ -101,12 +85,12 @@ export class AdminDashboardComponent {
     }
   }
 
-  getChargerUsage(): number {
-    if (!this.data?.machine?.total_charger || this.data.machine.total_charger === 0) {
+  getChargerUsage(machine: Machine): number {
+    if (machine.charging_slots || machine.charging_slots === 0) {
       return 0;
     }
     return Math.round(
-      (this.data.machine.occupied_charger / this.data.machine.total_charger) * 100
+      (machine.available_charging_slots / machine.charging_slots) * 100
     );
   }
 }
