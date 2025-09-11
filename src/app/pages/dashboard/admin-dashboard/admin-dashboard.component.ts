@@ -53,24 +53,33 @@ export class AdminDashboardComponent implements OnInit {
     });
 
     this.adminService.getMonthlyContrib(getYear()).subscribe(data => {
-      const labels = Object.values(data).map(key => {
-        const monthIndex = parseInt(key.month, 10) - 1;
-        return MONTHS_NAME[monthIndex] ?? key.month;
+      // Aggregate bottles per month
+      const aggregated: Record<string, number> = {};
+    
+      data.forEach((entry: any) => {
+        const key = `${entry.month}`;
+        aggregated[key] = (aggregated[key] || 0) + (entry.bottles || 0);
       });
+    
+      const labels = Object.keys(aggregated).map(month => {
+        const monthIndex = parseInt(month, 10) - 1;
+        return MONTHS_NAME[monthIndex] ?? month;
+      });
+    
       this.barChartData = {
         labels: labels,
         datasets: [
           {
-            data: Object.values(data).map((entry: any) => entry.bottles),
+            data: Object.values(aggregated),
             label: 'Bottles',
             backgroundColor: ['#10B981'],
           }
         ]
       };
     });
+    
 
     this.adminService.getMachines().subscribe(data => {
-      console.log(data)
       this.machines = data;
     })
   }

@@ -14,13 +14,15 @@ import { AdminService } from '../../../services/admin/admin.service';
 import { DashboardData } from '../../../models/dashboard-data';
 import { MONTHS_NAME } from '../../../constants/constants';
 import { getPreviousYearMonth, getYear, getYearMonth } from '../../../helper/date-helper';
-import { forkJoin, map, Subject, switchMap, takeUntil } from 'rxjs';
+import { map, Subject, switchMap, takeUntil } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-recycling-dashboard',
   standalone: true,
   imports: [
+    CommonModule,
     FlexLayoutModule,
     MatToolbarModule,
     MatCardModule,
@@ -65,25 +67,34 @@ export class RecyclingDashboardComponent {
           map(prevMonth => ({ currentMonth, prevMonth }))
         )
       ),
-      takeUntil(this.destroy$)  // automatically unsubscribe on destroy
+      takeUntil(this.destroy$) 
     )
     .subscribe(({ currentMonth, prevMonth }) => {
       this.data = currentMonth;
-      this.data.total_bottles_collected_last_month = prevMonth.total_bottles;
+      this.data.total_bottles_collected_last_month = prevMonth?.total_bottles || 0;
     });
 
     
 
     this.adminService.getMonthlyContrib(getYear()).subscribe(data => {
-      const labels = Object.values(data).map(key => {
-        const monthIndex = parseInt(key.month, 10) - 1;
-        return MONTHS_NAME[monthIndex] ?? key.month;
+      // Aggregate bottles per month
+      const aggregated: Record<string, number> = {};
+    
+      data.forEach((entry: any) => {
+        const key = `${entry.month}`;
+        aggregated[key] = (aggregated[key] || 0) + (entry.bottles || 0);
       });
+    
+      const labels = Object.keys(aggregated).map(month => {
+        const monthIndex = parseInt(month, 10) - 1;
+        return MONTHS_NAME[monthIndex] ?? month;
+      });
+    
       this.barChartData = {
         labels: labels,
         datasets: [
           {
-            data: Object.values(data).map((entry: any) => entry.bottles),
+            data: Object.values(aggregated),
             label: 'Bottles',
             backgroundColor: ['#10B981'],
           }
@@ -95,5 +106,11 @@ export class RecyclingDashboardComponent {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  get progressValue(): number {
+    if (!this.data || !this.data.monthly_target) return 0; // avoid div by zero
+    const raw = (this.data.total_bottles / this.data.monthly_target) * 100;
+    return parseFloat(raw.toFixed(2));  // keeps 2 decimal places as number
   }
 }

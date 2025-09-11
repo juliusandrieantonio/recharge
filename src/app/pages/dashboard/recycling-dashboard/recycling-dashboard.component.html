@@ -14,7 +14,7 @@
                 <mat-card-content>
                     <div fxFlex fxLayout="column" fxLayoutGap="14">
                         <span class="secondary-text" fxLayoutAlign="start">Monthly Progress</span>
-                        <app-progress-bar [progress]="(data.total_bottles / data.monthly_target) * 100"></app-progress-bar>
+                        <app-progress-bar [progress]="progressValue"></app-progress-bar>
                     </div>
                 </mat-card-content>
             </mat-card>

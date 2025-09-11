@@ -12,11 +12,13 @@ import { StudentService } from '../../../services/student/student.service';
 import { StudentStats } from '../../../models/student-stats';
 import { MONTHS_NAME } from '../../../constants/constants';
 import { getYear } from '../../../helper/date-helper';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-student-dashboard',
   standalone: true,
   imports: [
+    CommonModule,
     FlexLayoutModule,
     MatToolbarModule,
     MatCardModule,
@@ -31,16 +33,24 @@ import { getYear } from '../../../helper/date-helper';
 export class StudentDashboardComponent implements OnInit {
   public data: StudentStats | undefined;
   public barChartData: ChartConfiguration<'bar'>['data'] | undefined;
-  
+  public BOTTLES_PER_CHAIR = 50;
+  public BOTTLES_PER_KG_WASTE = 100;
+  public ENERGY_PER_BOTTLE = 0.0058;
+  public WASTE_TARGET_KG = 2;
+  public ENERGY_TARGET_KWH = 20;
+
   constructor(private studentService: StudentService) {
 
   }
   ngOnInit(): void {
     this.studentService.getStudent().subscribe((data) => {
       this.data = data;
-      this.data.recycling_impact = Math.floor(data.total_bottles / 50);
-      this.data.waste_diverted = data.total_bottles / 100;
-      this.data.flood_risk = data.total_bottles / 100;
+    
+      const totalBottles = data?.total_bottles || 0;
+    
+      this.data.recycling_impact = Math.floor(totalBottles / this.BOTTLES_PER_CHAIR);
+      this.data.waste_diverted = parseFloat((totalBottles / this.BOTTLES_PER_KG_WASTE).toFixed(2));
+      this.data.energy_saved = parseFloat((totalBottles / this.ENERGY_PER_BOTTLE).toFixed(2));
     });
 
     this.studentService.getMonthlyContrib(getYear()).subscribe((data) => {

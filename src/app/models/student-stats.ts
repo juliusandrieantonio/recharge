@@ -3,5 +3,5 @@ export interface StudentStats {
     available_points: number,
     recycling_impact: number,
     waste_diverted: number,
-    flood_risk: number
+    energy_saved: number
 }

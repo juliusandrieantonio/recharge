@@ -1,1 +1,109 @@
-<p>signup works!</p>
+<div fxFlexFill fxLayoutAlign="center center" fxLayoutAlign.xs="center start" fxLayoutGap="10">   
+    <mat-card appearance="raised" style="max-height: 100%;">
+        <div fxLayout.xs="column" fxLayout.gt-xs="row" fxLayoutAlign="start stretch" style="min-height: 100%;">
+            @if (isLoading) {
+                <div class="spinner-overlay">
+                  <mat-progress-spinner
+                    mode="indeterminate"
+                    diameter="50"
+                    strokeWidth="5"
+                    color="primary">
+                  </mat-progress-spinner>
+                </div>
+            }
+            <div fxFlex fxLayout="column" fxLayoutAlign="center center" class="margin-bottom-12 login-form">
+                <img src="../../assets/logo.png" alt="logo" style="width: 50%; object-fit: contain;">
+                <h1 style="color: white; text-align: center; margin-bottom: 4px;">ReCharge</h1>
+                <span style="color: #DCFCE7; text-align: center;" class="margin-bottom-12">Recycle Bottles, Power Devices</span>
+            </div>
+            <div fxFlex.gt-ls class="padding-24" fxLayout="column" fxLayoutGap="14" [ngClass]="{'mobile-top-radius': isMobile, 'mobile-login-form': isMobile}" style="overflow-x: auto !important;">
+                <h2>Create Account</h2>
+                <span class="secondary-text" style="text-align: start;">Sign up to start recycling and earning points</span>
+
+                <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="column">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput formControlName="phone" type="text" />
+                    
+                        @if (form.controls.phone.errors?.['required'] && form.controls.phone.touched) {
+                            <mat-error>Phone Number is required</mat-error>
+                        }
+                        @if (form.controls.password.errors?.['minlength'] && form.controls.password.touched) {
+                            <mat-error>Phone Number must be at least 9 characters</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" type="text" />
+                    
+                        @if (form.controls.email.errors?.['required'] && form.controls.email.touched) {
+                            <mat-error>Email is required</mat-error>
+                        }
+                        @if (form.controls.email.errors?.['email'] && form.controls.email.touched) {
+                            <mat-error>Invalid email address</mat-error>
+                        }
+                    </mat-form-field>
+                  
+                    <mat-form-field appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input matInput formControlName="password" [type]="isHidden ? 'text': 'password'" />
+                        <button mat-icon-button 
+                            matSuffix 
+                            type="button" 
+                            (click)="isHidden = !isHidden">
+                            <mat-icon>{{ isHidden ? 'visibility_off' : 'visibility' }}</mat-icon>
+                        </button>
+
+                        @if (form.controls.password.errors?.['required'] && form.controls.password.touched) {
+                            <mat-error>Password is required</mat-error>
+                        }
+                        @if (form.controls.password.errors?.['minlength'] && form.controls.password.touched) {
+                            <mat-error>Password must be at least 6 characters</mat-error>
+                        }
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Confirm Password</mat-label>
+                        <input matInput formControlName="confirm_password" [type]="isHidden ? 'text': 'password'" />
+                        <button mat-icon-button 
+                            matSuffix 
+                            type="button" 
+                            (click)="isHidden = !isHidden">
+                            <mat-icon>{{ isHidden ? 'visibility_off' : 'visibility' }}</mat-icon>
+                        </button>
+
+                        @if (form.controls.confirm_password.errors?.['required'] && form.controls.confirm_password.touched) {
+                            <mat-error>Confirm Password is required</mat-error>
+                        }
+                        @if (form.controls.confirm_password.errors?.['minlength'] && form.controls.confirm_password.touched) {
+                            <mat-error>Confirm Password must be at least 6 characters</mat-error>
+                        }
+                        @if (form.controls.confirm_password.errors?.['passwordMismatch'] && form.controls.confirm_password.touched) {
+                            <mat-error>Password does not match</mat-error>
+                        }
+                    </mat-form-field>
+                  
+                    <button mat-raised-button [disabled]="isLoading" type="submit" color="accent">
+                        Sign Up
+                    </button>
+                </form>
+                @if (errorMessage) {
+                    <mat-label style="text-align: center; color: #FE0000; word-wrap: break-word;">{{errorMessage}}</mat-label>
+                }
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <mat-label>Already have an account?</mat-label>
+                    <mat-label
+                        [routerLink]="'/login'"
+                        [queryParamsHandling]="'preserve'"
+                        [state]="{}"
+                        (click)="$event.preventDefault(); router.navigate(['/login'], { replaceUrl: true })"
+                        class="login-btn">
+                        Login
+                    </mat-label>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>

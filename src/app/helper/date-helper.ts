@@ -28,21 +28,25 @@ export class DateToMonthPipe implements PipeTransform {
 
 
 export function getYearMonth(): string {
-    const date = new Date(); // current date
-    const year = date.getFullYear(); // 2025
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 0-indexed, pad with 0
-    const yearMonth = `${year}-${month}`;
+  const date = new Date(); // current date
+  const year = date.getFullYear(); // 2025
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 0-indexed, pad with 0
+  const yearMonth = `${year}-${month}`;
 
-    return yearMonth;
+  return yearMonth;
 }
 
 export function getPreviousYearMonth(date: Date = new Date()): string {
-    const prevMonthDate = new Date(date.getFullYear(), date.getMonth() - 1, 1); // move 1 month back
-    const year = prevMonthDate.getFullYear();
-    const month = (prevMonthDate.getMonth() + 1).toString().padStart(2, '0');
-    return `${year}-${month}`;
+  const prevMonthDate = new Date(date.getFullYear(), date.getMonth() - 1, 1); // move 1 month back
+  const year = prevMonthDate.getFullYear();
+  const month = (prevMonthDate.getMonth() + 1).toString().padStart(2, '0');
+  return `${year}-${month}`;
 }
 
 export function getYear(date: Date = new Date()): string {
-    return `${date.getFullYear()}`;
+  return `${date.getFullYear()}`;
+}
+
+export function getMonth(date: Date = new Date()): string {
+  return String(date.getMonth() + 1).padStart(2, '0');
 }
