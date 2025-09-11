@@ -10,7 +10,11 @@
                         {{ col | stringFormat }}
                       </th>
                       <td mat-cell *matCellDef="let element">
-                        {{ element[col] }}
+                        @if (col === 'status') {
+                          {{ element.status ? 'Active' : 'Inactive' }}
+                        } @else {
+                          {{ element[col] }}
+                        }
                       </td>
                     </ng-container>
                   

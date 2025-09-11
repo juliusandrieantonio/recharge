@@ -20,10 +20,10 @@
                 }
                 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" fxLayout="column">
                     <mat-form-field appearance="fill">
-                        <mat-label>Username</mat-label>
-                        <input matInput formControlName="username" type="text" />
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput formControlName="phone_number" type="text" />
                     
-                        @if (loginForm.controls.username.errors?.['required'] && loginForm.controls.username.touched) {
+                        @if (loginForm.controls.phone_number.errors?.['required'] && loginForm.controls.phone_number.touched) {
                             <mat-error>Username is required</mat-error>
                         }
                     </mat-form-field>

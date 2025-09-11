@@ -10,11 +10,19 @@ import { ChartConfiguration } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { MatDividerModule } from "@angular/material/divider";
 import { ProgressBarComponent } from "../../../utilities/progress-bar/progress-bar.component";
+import { AdminService } from '../../../services/admin/admin.service';
+import { DashboardData } from '../../../models/dashboard-data';
+import { MONTHS_NAME } from '../../../constants/constants';
+import { getPreviousYearMonth, getYear, getYearMonth } from '../../../helper/date-helper';
+import { map, Subject, switchMap, takeUntil } from 'rxjs';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-recycling-dashboard',
   standalone: true,
   imports: [
+    CommonModule,
     FlexLayoutModule,
     MatToolbarModule,
     MatCardModule,
@@ -29,87 +37,80 @@ import { ProgressBarComponent } from "../../../utilities/progress-bar/progress-b
   styleUrl: './recycling-dashboard.component.scss'
 })
 export class RecyclingDashboardComponent {
-  public data = {
-    total_bottles_collected: 20,
-    total_bottles_collected_last_month: 10,
-    monthly_target: 100,
-    active_students: 100,
-    total_redemptions: 500,
-    recycling_impact: "5",
-    waste_diverted: "0.3 kg",
-    flood_risk: "13%",
-    machine: {
-      is_active: true,
-      name: "CEIT Veranda",
-      level: 70,
-      occupied_charger: 2,
-      total_charger: 5,
-      last_update: "09/05/2025 21:20"
-    }
-  }
-
-  public doughnutChartLabels: string[] = [ 'Waste (kg)', 'School Chairs', 'CO2 Reduction' ];
-  public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
-      { 
-        data: [ 350, 450, 100 ],
-        backgroundColor: ['#3B82F6', "#10B981", '#6366F1']
-      }
-    ];
-
-  public doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
-    responsive: true,
-    maintainAspectRatio: true,
-    plugins: {
-      legend: { position: 'top' },
-      datalabels: {
-        color: '#fff',
-        formatter: (value, ctx) => {
-          const dataset = ctx.chart.data.datasets[0].data as number[];
-          const total = dataset.reduce((acc, val) => acc + val, 0);
-          const percentage = ((value / total) * 100).toFixed(1) + '%';
-          return percentage;
-        }
-      }
-    }
+  public data: DashboardData = {
+    monthly_target: 0,
+    total_active_students: 0,
+    total_bottles: 0,
+    total_redemptions: 0,
+    total_bottles_collected_last_month: 0
   };
-
-  doughnutChartPlugins = [ChartDataLabels];
-
   public barChartPlugins = [];
-
-  public barChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: [ 'Jan', 'Feb', 'March', 'April', 'May', 'June', 'July' ],
-    datasets: [
-      { 
-        data: [ 65, 59, 80, 81, 56, 55, 40 ],
-        backgroundColor: ['#10B981']
-      }
-      
-    ]
-    
-  };
-
+  public barChartData: ChartConfiguration<'bar'>['data'] | undefined;
   public barChartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
-    maintainAspectRatio: false // let it fill width & height
+    maintainAspectRatio: false
   };
+  private destroy$ = new Subject<void>();
 
-  public getMachineStatus(level: number): { label: string, cssClass: string } {
-    if (level >= 100) {
-      return { label: 'FULL', cssClass: 'red-pill' };
-    } else if (level < 60) {
-      return { label: 'LOW', cssClass: 'green-pill' };
-    } else {
-      return { label: 'ALMOST FULL', cssClass: 'warning-pill' };
-    }
+  constructor(
+      private adminService: AdminService
+  ) {
+    
+  }
+  
+  ngOnInit(): void {
+    
+    this.adminService.getDashboard(getYearMonth())
+    .pipe(
+      switchMap(currentMonth =>
+        this.adminService.getDashboard(getPreviousYearMonth()).pipe(
+          map(prevMonth => ({ currentMonth, prevMonth }))
+        )
+      ),
+      takeUntil(this.destroy$) 
+    )
+    .subscribe(({ currentMonth, prevMonth }) => {
+      this.data = currentMonth;
+      this.data.total_bottles_collected_last_month = prevMonth?.total_bottles || 0;
+    });
+
+    
+
+    this.adminService.getMonthlyContrib(getYear()).subscribe(data => {
+      // Aggregate bottles per month
+      const aggregated: Record<string, number> = {};
+    
+      data.forEach((entry: any) => {
+        const key = `${entry.month}`;
+        aggregated[key] = (aggregated[key] || 0) + (entry.bottles || 0);
+      });
+    
+      const labels = Object.keys(aggregated).map(month => {
+        const monthIndex = parseInt(month, 10) - 1;
+        return MONTHS_NAME[monthIndex] ?? month;
+      });
+    
+      this.barChartData = {
+        labels: labels,
+        datasets: [
+          {
+            data: Object.values(aggregated),
+            label: 'Bottles',
+            backgroundColor: ['#10B981'],
+          }
+        ]
+      };
+    });
   }
 
-  getChargerUsage(): number {
-    if (!this.data?.machine?.total_charger || this.data.machine.total_charger === 0) {
-      return 0;
-    }
-    return Math.round(
-      (this.data.machine.occupied_charger / this.data.machine.total_charger) * 100
-    );
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  get progressValue(): number {
+    if (!this.data || !this.data.monthly_target) return 0; // avoid div by zero
+    const raw = (this.data.total_bottles / this.data.monthly_target) * 100;
+    return parseFloat(raw.toFixed(2));  // keeps 2 decimal places as number
   }
 }
