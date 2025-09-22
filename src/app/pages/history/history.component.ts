@@ -38,7 +38,7 @@ export class HistoryComponent {
   }
   ngOnInit(): void {
     this.studentService.getRedeemptions().subscribe((data) => {
-      this.dataSource = data;
+      this.dataSource = [...data].reverse();;
     });
   }
 
