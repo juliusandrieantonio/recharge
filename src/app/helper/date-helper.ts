@@ -5,11 +5,31 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true
 })
 export class DateToMonthPipe implements PipeTransform {
-  transform(dateStr: string, short: boolean = true): string {
+  transform(dateStr: string | Date, short: boolean = true): string {
     if (!dateStr) return '';
 
-    // Expecting MM/DD/YYYY
-    const [month, day, year] = dateStr.split('/').map(v => parseInt(v, 10));
+    let date: Date;
+
+    if (typeof dateStr === 'string') {
+      // Try parsing ISO string
+      const parsed = new Date(dateStr);
+      if (isNaN(parsed.getTime())) {
+        // If invalid ISO, try MM/DD/YYYY
+        const parts = dateStr.split('/').map(v => parseInt(v, 10));
+        if (parts.length === 3) {
+          const [month, day, year] = parts;
+          date = new Date(year, month - 1, day);
+        } else {
+          return '';
+        }
+      } else {
+        date = parsed;
+      }
+    } else if (dateStr instanceof Date) {
+      date = dateStr;
+    } else {
+      return '';
+    }
 
     const monthNamesShort = [
       "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -21,8 +41,8 @@ export class DateToMonthPipe implements PipeTransform {
       "July", "August", "September", "October", "November", "December"
     ];
 
-    const monthName = short ? monthNamesShort[month - 1] : monthNamesLong[month - 1];
-    return `${monthName} ${day}, ${year}`;
+    const monthName = short ? monthNamesShort[date.getMonth()] : monthNamesLong[date.getMonth()];
+    return `${monthName} ${date.getDate()}, ${date.getFullYear()}`;
   }
 }
 

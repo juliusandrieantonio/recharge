@@ -27,6 +27,11 @@ export const routes: Routes = [
             import('./students/students.component').then(m => m.StudentsComponent),
         },
         {
+          path: 'recycling-facilities',
+          loadComponent: () =>
+            import('./recycling-facilities/recycling-facilities.component').then(m => m.RecyclingFacilitiesComponent),
+        },
+        {
           path: 'redeem',
           loadComponent: () =>
             import('./redeem/redeem.component').then(m => m.RedeemComponent),

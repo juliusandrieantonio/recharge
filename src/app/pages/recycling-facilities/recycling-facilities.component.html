@@ -1,0 +1,82 @@
+<div 
+  fxFlexFill
+  fxLayout="column"
+  fxLayoutGap="14px"
+  class="padding-16"
+  style="overflow-y: auto;">
+
+  <!-- Partner Recycling Facilities -->
+  <mat-card fxFlex appearance="raised" class="responsive-card">
+    <mat-card-content fxLayout="column" fxLayoutGap="14px">
+        <h3>Partner Recycling Facilities</h3>
+
+      <!-- <div fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-flat-button color="accent" (click)="onAddRecycling()">
+          <h3>Partner Recycling Facilities</h3>
+          <mat-icon svgIcon="facility"></mat-icon>
+          Add Facility
+        </button>
+      </div> -->
+
+      <div class="table-container">
+        <table mat-table [dataSource]="facilityInfoDataSource" class="mat-elevation-z1 full-width-table">
+          <ng-container *ngFor="let col of facilityInfoCols" [matColumnDef]="col">
+            <th mat-header-cell *matHeaderCellDef sticky>{{ col | stringFormat }}</th>
+            <td mat-cell *matCellDef="let element">
+              <ng-container [ngSwitch]="col">
+                <span *ngSwitchCase="'date'">{{ element[col] | dateToMonth }}</span>
+                <span *ngSwitchCase="'status'" [ngClass]="element.status ? 'green-pill' : 'gray-pill'">
+                  {{ element[col] ? 'Active' : 'Inactive' }}
+                </span>
+                <span *ngSwitchDefault>{{ element[col] }}</span>
+              </ng-container>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef sticky>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <p class="edit-text" (click)="onEdit(element)">Edit</p>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="facilityInfoColsFinal; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: facilityInfoColsFinal;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Pickup Request History -->
+  <mat-card fxFlex appearance="raised" class="responsive-card">
+    <mat-card-content fxLayout="column" fxLayoutGap="14px">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h3>Pickup Request History</h3>
+        <button mat-flat-button color="accent" (click)="onRequestPickup()">
+          <mat-icon svgIcon="truck"></mat-icon>
+          Request Pickup
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="facilityHistoryDataSource" class="mat-elevation-z1 full-width-table">
+          <ng-container *ngFor="let col of facilityHistoryCols" [matColumnDef]="col">
+            <th mat-header-cell *matHeaderCellDef sticky>{{ col | stringFormat }}</th>
+            <td mat-cell *matCellDef="let element">
+              <ng-container [ngSwitch]="col">
+                <span *ngSwitchCase="'requested_date'">{{ element[col] | dateToMonth }}</span>
+                <span *ngSwitchCase="'status'" [ngClass]="element.status ? 'green-pill' : 'warning-pill'">
+                  {{ element[col] ? 'Completed' : 'Pending' }}
+                </span>
+                <span *ngSwitchDefault>{{ element[col] || '-' }}</span>
+              </ng-container>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="facilityHistoryCols; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: facilityHistoryCols;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
