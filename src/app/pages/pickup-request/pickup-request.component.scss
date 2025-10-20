@@ -1,0 +1,34 @@
+@use '@angular/material' as mat;
+@use '../../../scss/variables' as vars;
+
+:host {
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+}
+.edit-text {
+    color: mat.m2-get-color-from-palette(vars.$my-theme-primary, 500);
+}
+
+.responsive-card {
+    max-width: 100%;
+    width: 100%;
+}
+  
+.table-container {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 300px;
+    min-height: 0;
+    width: 100%;
+}
+  
+.full-width-table {
+    width: 100%;
+    min-width: 600px; /* ensures horizontal scroll if too many columns */
+    border-collapse: collapse;
+}
+
+.status {
+    width: fit-content;
+}

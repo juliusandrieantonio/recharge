@@ -13,5 +13,7 @@ export interface RecyclingFacilityHistory {
     requested_bottles: number,
     actual_bottles: number | null,
     requested_date: string,
-    status: boolean
+    status: boolean,
+    school_name?: string,
+    message?: string
 }

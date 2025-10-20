@@ -32,6 +32,11 @@ export const routes: Routes = [
             import('./recycling-facilities/recycling-facilities.component').then(m => m.RecyclingFacilitiesComponent),
         },
         {
+          path: 'pickup-request',
+          loadComponent: () =>
+            import('./pickup-request/pickup-request.component').then(m => m.PickupRequestComponent),
+        },
+        {
           path: 'redeem',
           loadComponent: () =>
             import('./redeem/redeem.component').then(m => m.RedeemComponent),

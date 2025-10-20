@@ -165,6 +165,7 @@ export class AdminService {
       facility_name: string;
       requested_bottles: number;
       message?: string;
+      requested_date: string;
     }
   ): Promise<void> {
     if (!uid) throw new Error('Invalid UID');
@@ -172,15 +173,15 @@ export class AdminService {
     const requestRef = push(ref(this.db, `requests/${uid}`));
 
     const newRequest: RecyclingFacilityHistory = {
+      school_name: "Pamantasan ng Lungsod ng Valenzuela",
       facility_name: requestData.facility_name,
       requested_bottles: requestData.requested_bottles,
+      message: requestData.message,
       actual_bottles: 0,
-      requested_date: new Date().toISOString(),
+      requested_date: requestData.requested_date,
       status: false,
       id: requestRef.key || ''
     };
-
-    console.log(newRequest)
 
     // Save to Firebase
     await set(requestRef, newRequest);

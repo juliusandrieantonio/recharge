@@ -1,17 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { RecyclingFacilityInfo } from '../../../../models/recycling-facility';
+import { RecyclingFacilityHistory, RecyclingFacilityInfo } from '../../../../models/recycling-facility';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import { AdminService } from '../../../../services/admin/admin.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { RecyclingService } from '../../../../services/recycling/recycling.service';
 
 @Component({
-  selector: 'app-dialog',
+  selector: 'app-mark-pick-up',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,26 +23,22 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSelectModule,
     MatProgressBarModule
   ],
-  templateUrl: './history-dialog.component.html',
-  styleUrl: './history-dialog.component.scss'
+  templateUrl: './mark-pick-up.component.html',
+  styleUrl: './mark-pick-up.component.scss'
 })
-export class HistoryDialogComponent {
+export class MarkPickUpComponent {
   public requestForm: FormGroup;
   public loading: boolean = false;
   errorMessage = '';
 
   constructor(
-    private adminService: AdminService,
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<HistoryDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RecyclingFacilityInfo[]
+    private dialogRef: MatDialogRef<MarkPickUpComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: RecyclingFacilityHistory,
+    private recyclingService: RecyclingService
   ) {
     this.requestForm = this.fb.group({
-      uid: [''],
-      facility_name: ['', Validators.required],
-      requested_bottles: [null, [Validators.required, Validators.min(1)]],
-      message: [''],
-      requested_date: ['']
+      actual_bottles: ['']
     });
   }
 
@@ -58,16 +54,11 @@ export class HistoryDialogComponent {
 
     console.log(this.requestForm.value)
     try {
+      this.data.actual_bottles = this.requestForm.value.actual_bottles;
+      this.data.status = true;
+      await this.recyclingService.updateRequest(this.data.id, this.data);
 
-      const requested_date = new Date().toISOString();
-      await this.adminService.addPickupRequest(this.requestForm.value.uid, {
-        facility_name: this.requestForm.value.facility_name,
-        requested_bottles: this.requestForm.value.requested_bottles,
-        message: this.requestForm.value.message,
-        requested_date: requested_date
-      });
-      this.requestForm.get('requested_date')?.setValue(requested_date)
-      this.dialogRef.close(this.requestForm.value);
+      this.dialogRef.close(this.data);
     } catch (err: any) {
       console.error('Failed to add pickup request:', err);
       this.errorMessage = err.message || 'An unexpected error occurred';
