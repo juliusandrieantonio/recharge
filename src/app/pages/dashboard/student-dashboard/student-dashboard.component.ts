@@ -33,7 +33,7 @@ import { CommonModule } from '@angular/common';
 export class StudentDashboardComponent implements OnInit {
   public data: StudentStats | undefined;
   public barChartData: ChartConfiguration<'bar'>['data'] | undefined;
-  public BOTTLES_PER_CHAIR = 50;
+  public BOTTLES_PER_CHAIR = 600;
   public BOTTLES_PER_KG_WASTE = 100;
   public ENERGY_PER_BOTTLE = 0.0058;
   public WASTE_TARGET_KG = 2;

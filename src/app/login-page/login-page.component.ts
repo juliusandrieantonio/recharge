@@ -88,4 +88,18 @@ export class LoginPageComponent {
       this.loginForm.markAllAsTouched(); // force showing all errors
     }
   }
+    allowOnlyNumbers(event: KeyboardEvent) {
+    const charCode = event.charCode || event.keyCode;
+    // Allow only digits (0–9)
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+  
+  blockNonNumericPaste(event: ClipboardEvent) {
+    const pastedData = event.clipboardData?.getData('text') ?? '';
+    if (!/^[0-9]*$/.test(pastedData)) {
+      event.preventDefault();
+    }
+  }
 }

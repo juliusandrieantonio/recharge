@@ -11,7 +11,7 @@
                   </mat-progress-spinner>
                 </div>
             }
-            <div fxFlex fxLayout="column" fxLayoutAlign="center center" class="margin-bottom-12 login-form">
+            <div fxFlex fxLayout="column" fxLayoutAlign="center center" class="login-form">
                 <img src="./assets/logo.png" alt="logo" style="width: 50%; object-fit: contain;">
                 <h1 style="color: white; text-align: center; margin-bottom: 4px;">ReCharge</h1>
                 <span style="color: #DCFCE7; text-align: center;" class="margin-bottom-12">Recycle Bottles, Power Devices</span>
@@ -48,7 +48,7 @@
                     </mat-form-field>
                   
                     <mat-form-field appearance="outline">
-                        <mat-label>Password</mat-label>
+                        <mat-label>Pin</mat-label>
                         <input 
                           matInput 
                           formControlName="password" 
@@ -63,15 +63,15 @@
                         </button>
                       
                         @if (form.controls.password.errors?.['required'] && form.controls.password.touched) {
-                          <mat-error>Password is required</mat-error>
+                          <mat-error>Pin is required</mat-error>
                         }
                         @if (form.controls.password.errors?.['minlength'] && form.controls.password.touched) {
-                          <mat-error>Password must be at least 6 digits</mat-error>
+                          <mat-error>Pin must be at least 6 digits</mat-error>
                         }
                       </mat-form-field>
                       
                       <mat-form-field appearance="outline">
-                        <mat-label>Confirm Password</mat-label>
+                        <mat-label>Confirm Pin</mat-label>
                         <input 
                           matInput 
                           formControlName="confirm_password" 
@@ -86,10 +86,10 @@
                         </button>
                       
                         @if (form.controls.confirm_password.errors?.['required'] && form.controls.confirm_password.touched) {
-                          <mat-error>Confirm Password is required</mat-error>
+                          <mat-error>Confirm Pin is required</mat-error>
                         }
                         @if (form.controls.confirm_password.errors?.['minlength'] && form.controls.confirm_password.touched) {
-                          <mat-error>Confirm Password must be at least 6 digits</mat-error>
+                          <mat-error>Confirm Pin must be at least 6 digits</mat-error>
                         }
                         @if (form.controls.confirm_password.errors?.['passwordMismatch'] && form.controls.confirm_password.touched) {
                           <mat-error>Password does not match</mat-error>

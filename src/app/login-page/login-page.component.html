@@ -24,13 +24,21 @@
                         <input matInput formControlName="phone_number" type="text" />
                     
                         @if (loginForm.controls.phone_number.errors?.['required'] && loginForm.controls.phone_number.touched) {
-                            <mat-error>Username is required</mat-error>
+                            <mat-error>Phone Number is required</mat-error>
                         }
                     </mat-form-field>
                   
                     <mat-form-field appearance="fill">
-                        <mat-label>Password</mat-label>
-                        <input matInput formControlName="password" [type]="isHidden ? 'text': 'password'" />
+                        <mat-label>Pin</mat-label>
+                        <input 
+                        matInput 
+                        formControlName="password" 
+                        [type]="isHidden ? 'text' : 'password'" 
+                        inputmode="numeric" 
+                        pattern="[0-9]*"
+                        (keypress)="allowOnlyNumbers($event)"
+                        (paste)="blockNonNumericPaste($event)"
+                        />
                         <button mat-icon-button 
                             matSuffix 
                             type="button" 
@@ -39,10 +47,10 @@
                         </button>
 
                         @if (loginForm.controls.password.errors?.['required'] && loginForm.controls.password.touched) {
-                            <mat-error>Password is required</mat-error>
+                            <mat-error>Pin is required</mat-error>
                         }
                         @if (loginForm.controls.password.errors?.['minlength'] && loginForm.controls.password.touched) {
-                            <mat-error>Password must be at least 6 characters</mat-error>
+                            <mat-error>Pin must be at least 6 characters</mat-error>
                         }
                     </mat-form-field>
                   
