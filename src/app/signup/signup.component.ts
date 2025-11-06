@@ -35,7 +35,7 @@ import { Credentials } from '../models/credentials';
 export class SignupComponent {
   public isMobile = false;
   public form = new FormGroup({
-    phone: new FormControl('', [Validators.required, Validators.minLength(9)]),
+    phone: new FormControl('', [Validators.required, Validators.minLength(11)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     confirm_password: new FormControl('', [Validators.required, Validators.minLength(6)])
@@ -113,4 +113,20 @@ export class SignupComponent {
       return null;
     };
   }
+
+  allowOnlyNumbers(event: KeyboardEvent) {
+    const charCode = event.charCode || event.keyCode;
+    // Allow only digits (0–9)
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+  
+  blockNonNumericPaste(event: ClipboardEvent) {
+    const pastedData = event.clipboardData?.getData('text') ?? '';
+    if (!/^[0-9]*$/.test(pastedData)) {
+      event.preventDefault();
+    }
+  }
+  
 }
