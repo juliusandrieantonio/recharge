@@ -3,5 +3,6 @@ export interface UserInfo {
     phone_number: string,
     role: string,
     status: boolean,
-    bottles?: number
+    bottles?: number,
+    total_bottles_collected?: number
 }

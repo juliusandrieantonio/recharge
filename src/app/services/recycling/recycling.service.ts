@@ -4,6 +4,7 @@ import { UtilizationData } from '../../models/utilization';
 import { Observable } from 'rxjs';
 import { RecyclingFacilityHistory } from '../../models/recycling-facility';
 import { Auth, getAuth } from 'firebase/auth';
+import { getMonth, getYear, getYearMonth } from '../../helper/date-helper';
 
 @Injectable({
   providedIn: 'root'
@@ -89,23 +90,34 @@ export class RecyclingService {
     try {
       const uid = this.auth.currentUser?.uid;
       if (!uid) {
-        console.warn('⚠️ No logged-in user found');
+        console.warn('No logged-in user found');
         return;
       }
 
+      // update the recycling dashboard
+      const dashboardRef = ref(this.db, `monthly_progress_by_recycler/${uid}/${getYear()}/${getMonth()}`)
+      const dashboardSnapshot = await get(dashboardRef)
+      const dashboardVal = dashboardSnapshot.val()
+
+      const currentBottles = dashboardVal?.bottles || 0
+      const newBottles = currentBottles + updates.actual_bottles
+
+      await update(dashboardRef, { bottles: newBottles })
+
+      // update the request
       const requestRef = ref(this.db, `requests/${uid}/${id}`);
       await update(requestRef, updates);
 
+      // update total bottles collected
       const userRef = ref(this.db, `users/${uid}`);
       const snapshot = await get(userRef);
       const userData = snapshot.val();
 
       if (!userData) {
-        console.warn('⚠️ User data not found for UID:', uid);
+        console.warn('User data not found for UID:', uid);
         return;
       }
 
-      // 3️⃣ Add new values to current totals
       const updatedTotals = {
         total_bottles:
           (userData.total_bottles || 0) + (updates.actual_bottles || 0),
@@ -114,13 +126,33 @@ export class RecyclingService {
           (updates.actual_bottles || 0),
       };
 
-      // 4️⃣ Update user node with new totals
       await update(userRef, updatedTotals);
     }
+
     catch (error) {
       console.error('Failed to update request:', error);
       throw error;
     }
 
   }
+
+  public getMonthlyContrib(): Observable<any[]> {
+    return new Observable(observer => {
+      const uid = this.auth.currentUser?.uid;
+      const contribRef = ref(this.db, `monthly_progress_by_recycler/${uid}/${getYear()}`);
+
+      console.log(contribRef.key)
+      onValue(contribRef, snapshot => {
+        const data = snapshot.val();
+        if (!data) {
+          observer.next([]);
+          return;
+        }
+
+        observer.next(data);
+      });
+    });
+  }
+
+
 }

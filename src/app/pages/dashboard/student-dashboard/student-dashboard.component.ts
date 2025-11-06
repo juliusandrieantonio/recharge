@@ -50,7 +50,7 @@ export class StudentDashboardComponent implements OnInit {
     
       this.data.recycling_impact = Math.floor(totalBottles / this.BOTTLES_PER_CHAIR);
       this.data.waste_diverted = parseFloat((totalBottles / this.BOTTLES_PER_KG_WASTE).toFixed(2));
-      this.data.energy_saved = parseFloat((totalBottles / this.ENERGY_PER_BOTTLE).toFixed(2));
+      this.data.energy_saved = parseFloat((totalBottles * this.ENERGY_PER_BOTTLE).toFixed(2));
     });
 
     this.studentService.getMonthlyContrib(getYear()).subscribe((data) => {
