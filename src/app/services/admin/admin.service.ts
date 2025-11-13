@@ -98,6 +98,7 @@ export class AdminService {
       onValue(machineRef, snapshot => {
         const data = snapshot.val();
         // Convert object to array
+        console.log(data)
         const machines: Machine[] = Object.entries(data).map(([id, value]: [string, any]) => ({
           id,
           name: value.name,
@@ -106,7 +107,7 @@ export class AdminService {
           available_charging_slots: value.available_charging_slots || 0,
           bin_level: value.bin_level || 0,
           charging_slots: value.charging_slots || 0,
-          last_modified: new Date(value.last_modified)
+          last_modified: new Date(value.last_modified * 1000).toLocaleString()
         }));
 
         observer.next(machines);
