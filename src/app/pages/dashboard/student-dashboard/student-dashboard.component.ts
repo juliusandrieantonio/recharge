@@ -13,6 +13,7 @@ import { StudentStats } from '../../../models/student-stats';
 import { MONTHS_NAME } from '../../../constants/constants';
 import { getYear } from '../../../helper/date-helper';
 import { CommonModule } from '@angular/common';
+import { SettingsService } from '../../../services/settings/settings.service';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -39,9 +40,10 @@ export class StudentDashboardComponent implements OnInit {
   public WASTE_TARGET_KG = 2;
   public ENERGY_TARGET_KWH = 20;
 
-  constructor(private studentService: StudentService) {
+  constructor(
+    private studentService: StudentService, 
+    private settingsService: SettingsService) {}
 
-  }
   ngOnInit(): void {
     this.studentService.getStudent().subscribe((data) => {
       this.data = data;
@@ -71,6 +73,18 @@ export class StudentDashboardComponent implements OnInit {
           }
         ]
       };
+    });
+
+    this.loadSettings()
+  }
+
+  async loadSettings() {
+    this.settingsService.settings$.subscribe(data => {
+      if (data) {
+        this.BOTTLES_PER_CHAIR = data.bottles_per_school_chair;
+        this.ENERGY_PER_BOTTLE = data.energy_save_per_bottle;
+        this.BOTTLES_PER_KG_WASTE = data.bottles_per_kg_waste;
+      }
     });
   }
 

@@ -46,16 +46,17 @@
                     <mat-card-content class="padding-top-14" fxLayout="column" fxLayoutGap="24">
                         <div fxFlex fxLayout.xs="column" fxLayout.gt-xs="row" fxLayoutGap="34">
                             <div fxFlex fxLayout="column" fxLayoutGap="14">
-                                <div fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
                                     <mat-icon svgIcon="bin"></mat-icon>
                                     <span>Bin Level</span>
                                 </div>
                                 <span [ngClass]="getMachineStatus(machine.bin_level).cssClass">
                                     {{ getMachineStatus(machine.bin_level).label }}
                                 </span>
+                                <span fxLayoutAlign="center">{{machine.bin_level}} / {{machine.bin_level}}</span>
                             </div>
                             <div fxFlex fxLayout="column" fxLayoutGap="14">
-                                <div fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
+                                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
                                     <mat-icon svgIcon="redeem"></mat-icon>
                                     <span>Charging Slots</span>
                                 </div>

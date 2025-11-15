@@ -228,6 +228,10 @@ body {
   text-align: center;
 }
 
+.round-corners {
+  border-radius: 8px;
+}
+
 .blue-color {
   color: mat.m2-get-color-from-palette(vars.$my-theme-primary, 500);
 }

@@ -6,13 +6,16 @@ import { Machine } from '../../models/machine';
 import { UserInfo } from '../../models/user-info';
 import { RecyclingFacilityHistory, RecyclingFacilityInfo } from '../../models/recycling-facility';
 import { Auth, createUserWithEmailAndPassword, UserCredential } from '@angular/fire/auth';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  constructor(private db: Database, private auth: Auth) {
+  constructor(private db: Database, private auth: Auth, private http: HttpClient) {
   }
+  private BASE_URL = environment.vercel
 
   public getStudents(): Observable<UserInfo[]> {
     return new Observable(observer => {
@@ -68,28 +71,12 @@ export class AdminService {
     await update(userRef, updates);
   }
 
-  public async createRecyclerUser(
-    email: string,
-    password: string,
-    data: Omit<RecyclingFacilityInfo, 'role'>
-  ): Promise<UserCredential> {
-    // Create the Auth user first
-    const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
-    const uid = userCredential.user.uid;
-
-    // Then store extra info in Realtime Database
-    const userRef = ref(this.db, `users/${uid}`);
-    const phoneRef = ref(this.db, `phone_numbers/${data.phone_number}`);
-    await set(phoneRef, email);
-
-    await set(userRef, {
-      ...data,
-      role: 'recycling',
-      total_bottles_collected: data.total_bottles_collected || 0,
-      status: data.status || 'active'
+  public createRecyclerUser(email: string, password: string, data: Omit<RecyclingFacilityInfo, 'role'>) {
+    return this.http.post<{ success: boolean; uid: string }>(`${this.BASE_URL}/api/createUser`, {
+      email,
+      password,
+      data
     });
-
-    return userCredential;
   }
 
   public getMachines(): Observable<Machine[]> {
@@ -217,5 +204,22 @@ export class AdminService {
       console.error('Failed to get requests:', error);
       throw error;
     }
+  }
+
+  public async updateSettings(settings: any): Promise<void> {
+    const settingsRef = ref(this.db, 'settings');
+    await set(settingsRef, settings);
+  }
+
+  public getSettings(): Observable<any> {
+    return new Observable(observer => {
+      const settingsRef = ref(this.db, 'settings');
+      onValue(settingsRef, snapshot => {
+        const data = snapshot.val();
+        observer.next(data || {}); // return empty object if no settings yet
+      }, error => {
+        observer.error(error);
+      });
+    });
   }
 }
