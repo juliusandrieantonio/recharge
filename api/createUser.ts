@@ -1,5 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import * as admin from 'firebase-admin';
+const admin = require('firebase-admin');
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -12,22 +11,22 @@ if (!admin.apps.length) {
   });
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+module.exports = async function (req: any, res: any) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: "Method not allowed" });
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
     const { email, password, data } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: "Email and password required" });
+      return res.status(400).json({ error: 'Email and password required' });
     }
 
-    // 1. Create Firebase user (WITHOUT SIGNING IN ON CLIENT)
+    // 1. Create Firebase user (WITHOUT signing in client)
     const userRecord = await admin.auth().createUser({
       email,
-      password,
+      password
     });
 
     const uid = userRecord.uid;
@@ -35,9 +34,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // 2. Save user data in RTDB
     await admin.database().ref(`users/${uid}`).set({
       ...data,
-      role: "recycling",
+      role: 'recycling',
       total_bottles_collected: data?.total_bottles_collected || 0,
-      status: data?.status || "active"
+      status: data?.status || 'active'
     });
 
     // 3. Save phone number lookup
@@ -46,8 +45,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     return res.status(200).json({ success: true, uid });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error(err);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: (err as Error).message || 'Unknown error' });
   }
-}
+};
