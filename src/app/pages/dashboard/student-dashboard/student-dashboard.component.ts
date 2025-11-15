@@ -35,6 +35,7 @@ export class StudentDashboardComponent implements OnInit {
   public data: StudentStats | undefined;
   public barChartData: ChartConfiguration<'bar'>['data'] | undefined;
   public BOTTLES_PER_CHAIR = 50;
+  public MINUTES_PER_BOTTLE = 0;
   public BOTTLES_PER_KG_WASTE = 100;
   public ENERGY_PER_BOTTLE = 0.0058;
   public WASTE_TARGET_KG = 2;
@@ -84,6 +85,7 @@ export class StudentDashboardComponent implements OnInit {
         this.BOTTLES_PER_CHAIR = data.bottles_per_school_chair;
         this.ENERGY_PER_BOTTLE = data.energy_save_per_bottle;
         this.BOTTLES_PER_KG_WASTE = data.bottles_per_kg_waste;
+        this.MINUTES_PER_BOTTLE = data.minutes_per_points;
       }
     });
   }
