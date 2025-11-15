@@ -7,7 +7,7 @@ import { UserInfo } from '../../models/user-info';
 import { RecyclingFacilityHistory, RecyclingFacilityInfo } from '../../models/recycling-facility';
 import { Auth, createUserWithEmailAndPassword, UserCredential } from '@angular/fire/auth';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environment/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
