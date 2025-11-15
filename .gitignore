@@ -41,7 +41,4 @@ testem.log
 .DS_Store
 Thumbs.db
 
-src/environment/environment.dev.ts
-src/environment/environment.ts
-/src/environments/environment*.ts
 .vercel
