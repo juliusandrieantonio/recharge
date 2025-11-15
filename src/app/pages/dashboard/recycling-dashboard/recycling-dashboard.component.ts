@@ -16,6 +16,8 @@ import { MONTHS_NAME } from '../../../constants/constants';
 import { getPreviousYearMonth, getYear, getYearMonth } from '../../../helper/date-helper';
 import { map, Subject, switchMap, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { RecyclingService } from '../../../services/recycling/recycling.service';
+import { UserInfo } from '../../../models/user-info';
 
 
 @Component({
@@ -53,13 +55,13 @@ export class RecyclingDashboardComponent {
   private destroy$ = new Subject<void>();
 
   constructor(
+      private recyclingService: RecyclingService,
       private adminService: AdminService
   ) {
     
   }
   
-  ngOnInit(): void {
-    
+  ngOnInit(): void {    
     this.adminService.getDashboard(getYearMonth())
     .pipe(
       switchMap(currentMonth =>
@@ -71,19 +73,29 @@ export class RecyclingDashboardComponent {
     )
     .subscribe(({ currentMonth, prevMonth }) => {
       this.data = currentMonth;
+      let userData: UserInfo = JSON.parse(localStorage.getItem("user_data") || "{}");
+      this.data.total_bottles = userData.total_bottles_collected;
       this.data.total_bottles_collected_last_month = prevMonth?.total_bottles || 0;
     });
 
     
 
-    this.adminService.getMonthlyContrib(getYear()).subscribe(data => {
-      // Aggregate bottles per month
+    this.recyclingService.getMonthlyContrib().subscribe(data => {
       const aggregated: Record<string, number> = {};
     
-      data.forEach((entry: any) => {
-        const key = `${entry.month}`;
-        aggregated[key] = (aggregated[key] || 0) + (entry.bottles || 0);
-      });
+      console.log(data);
+    
+      // Handle both array and object cases safely
+      if (Array.isArray(data)) {
+        data.forEach((entry: any) => {
+          const key = `${entry.month}`;
+          aggregated[key] = (aggregated[key] || 0) + (entry.bottles || 0);
+        });
+      } else if (data && typeof data === 'object') {
+        Object.entries(data).forEach(([month, entry]: [string, any]) => {
+          aggregated[month] = (aggregated[month] || 0) + (entry.bottles || 0);
+        });
+      }
     
       const labels = Object.keys(aggregated).map(month => {
         const monthIndex = parseInt(month, 10) - 1;
@@ -100,17 +112,11 @@ export class RecyclingDashboardComponent {
           }
         ]
       };
-    });
+    });    
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  get progressValue(): number {
-    if (!this.data || !this.data.monthly_target) return 0; // avoid div by zero
-    const raw = (this.data.total_bottles / this.data.monthly_target) * 100;
-    return parseFloat(raw.toFixed(2));  // keeps 2 decimal places as number
   }
 }

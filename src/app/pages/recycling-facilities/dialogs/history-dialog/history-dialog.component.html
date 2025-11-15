@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Requet Bottle Pickup</h2>
+
+<mat-dialog-content [formGroup]="requestForm">
+  <mat-progress-bar *ngIf="loading"></mat-progress-bar>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  <!-- Facility selection -->
+  <mat-form-field appearance="outline" style="width: 100%;">
+    <mat-label>Facility Name</mat-label>
+    <mat-select formControlName="facility_name">
+      <mat-option *ngFor="let facility of data" [value]="facility.facility_name" (onSelectionChange)="requestForm.get('uid')?.setValue(facility.uid)">
+        {{ facility.facility_name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Number of bottles -->
+  <mat-form-field appearance="outline" style="width: 100%;">
+    <mat-label>Number of Bottles</mat-label>
+    <input matInput type="number" formControlName="requested_bottles" />
+  </mat-form-field>
+
+  <!-- Optional message -->
+  <mat-form-field appearance="outline" style="width: 100%;">
+    <mat-label>Message (optional)</mat-label>
+    <textarea matInput rows="3" formControlName="message"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onSave()" [disabled]="requestForm.invalid || loading">Send Request</button>
+</mat-dialog-actions>

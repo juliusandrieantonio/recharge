@@ -23,13 +23,15 @@
                 <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="column">
                     <mat-form-field appearance="outline">
                         <mat-label>Phone Number</mat-label>
-                        <input matInput formControlName="phone" type="text" />
+                        <input matInput formControlName="phone" type="text" 
+                        (keypress)="allowOnlyNumbers($event)"
+                        (paste)="blockNonNumericPaste($event)"/>
                     
                         @if (form.controls.phone.errors?.['required'] && form.controls.phone.touched) {
                             <mat-error>Phone Number is required</mat-error>
                         }
-                        @if (form.controls.password.errors?.['minlength'] && form.controls.password.touched) {
-                            <mat-error>Phone Number must be at least 9 characters</mat-error>
+                        @if (form.controls.phone.errors?.['minlength'] && form.controls.phone.touched) {
+                            <mat-error>Phone Number must be at least 11 characters</mat-error>
                         }
                     </mat-form-field>
 
@@ -47,43 +49,52 @@
                   
                     <mat-form-field appearance="outline">
                         <mat-label>Password</mat-label>
-                        <input matInput formControlName="password" [type]="isHidden ? 'text': 'password'" />
-                        <button mat-icon-button 
-                            matSuffix 
-                            type="button" 
-                            (click)="isHidden = !isHidden">
-                            <mat-icon>{{ isHidden ? 'visibility_off' : 'visibility' }}</mat-icon>
+                        <input 
+                          matInput 
+                          formControlName="password" 
+                          [type]="isHidden ? 'text' : 'password'"
+                          inputmode="numeric" 
+                          pattern="[0-9]*"
+                          (keypress)="allowOnlyNumbers($event)"
+                          (paste)="blockNonNumericPaste($event)"
+                        />
+                        <button mat-icon-button matSuffix type="button" (click)="isHidden = !isHidden">
+                          <mat-icon>{{ isHidden ? 'visibility_off' : 'visibility' }}</mat-icon>
                         </button>
-
+                      
                         @if (form.controls.password.errors?.['required'] && form.controls.password.touched) {
-                            <mat-error>Password is required</mat-error>
+                          <mat-error>Password is required</mat-error>
                         }
                         @if (form.controls.password.errors?.['minlength'] && form.controls.password.touched) {
-                            <mat-error>Password must be at least 6 characters</mat-error>
+                          <mat-error>Password must be at least 6 digits</mat-error>
                         }
-                    </mat-form-field>
-
-
-                    <mat-form-field appearance="outline">
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="outline">
                         <mat-label>Confirm Password</mat-label>
-                        <input matInput formControlName="confirm_password" [type]="isHidden ? 'text': 'password'" />
-                        <button mat-icon-button 
-                            matSuffix 
-                            type="button" 
-                            (click)="isHidden = !isHidden">
-                            <mat-icon>{{ isHidden ? 'visibility_off' : 'visibility' }}</mat-icon>
+                        <input 
+                          matInput 
+                          formControlName="confirm_password" 
+                          [type]="isHidden ? 'text' : 'password'"
+                          inputmode="numeric" 
+                          pattern="[0-9]*"
+                          (keypress)="allowOnlyNumbers($event)"
+                          (paste)="blockNonNumericPaste($event)"
+                        />
+                        <button mat-icon-button matSuffix type="button" (click)="isHidden = !isHidden">
+                          <mat-icon>{{ isHidden ? 'visibility_off' : 'visibility' }}</mat-icon>
                         </button>
-
+                      
                         @if (form.controls.confirm_password.errors?.['required'] && form.controls.confirm_password.touched) {
-                            <mat-error>Confirm Password is required</mat-error>
+                          <mat-error>Confirm Password is required</mat-error>
                         }
                         @if (form.controls.confirm_password.errors?.['minlength'] && form.controls.confirm_password.touched) {
-                            <mat-error>Confirm Password must be at least 6 characters</mat-error>
+                          <mat-error>Confirm Password must be at least 6 digits</mat-error>
                         }
                         @if (form.controls.confirm_password.errors?.['passwordMismatch'] && form.controls.confirm_password.touched) {
-                            <mat-error>Password does not match</mat-error>
+                          <mat-error>Password does not match</mat-error>
                         }
-                    </mat-form-field>
+                      </mat-form-field>                      
                   
                     <button mat-raised-button [disabled]="isLoading" type="submit" color="accent">
                         Sign Up

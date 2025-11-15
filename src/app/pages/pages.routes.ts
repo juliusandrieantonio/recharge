@@ -27,6 +27,16 @@ export const routes: Routes = [
             import('./students/students.component').then(m => m.StudentsComponent),
         },
         {
+          path: 'recycling-facilities',
+          loadComponent: () =>
+            import('./recycling-facilities/recycling-facilities.component').then(m => m.RecyclingFacilitiesComponent),
+        },
+        {
+          path: 'pickup-request',
+          loadComponent: () =>
+            import('./pickup-request/pickup-request.component').then(m => m.PickupRequestComponent),
+        },
+        {
           path: 'redeem',
           loadComponent: () =>
             import('./redeem/redeem.component').then(m => m.RedeemComponent),
@@ -35,6 +45,11 @@ export const routes: Routes = [
           path: 'utilization',
           loadComponent: () =>
             import('./utilization/utilization.component').then(m => m.UtilizationComponent),
+        },
+        {
+          path: 'settings',
+          loadComponent: () =>
+            import('./settings/settings.component').then(m => m.SettingsComponent),
         },
       ],
     },

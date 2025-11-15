@@ -201,6 +201,15 @@ body {
   text-align: center;
 }
 
+.gray-pill {
+  width: 100%;
+  color: vars.$light-primary-text;
+  background-color: vars.$dark-secondary-text;
+  padding: 8px;
+  border-radius: 14px;
+  text-align: center;
+}
+
 .green-pill {
   width: 100%;
   color: vars.$light-primary-text;
@@ -217,6 +226,10 @@ body {
   padding: 8px;
   border-radius: 14px;
   text-align: center;
+}
+
+.round-corners {
+  border-radius: 8px;
 }
 
 .blue-color {

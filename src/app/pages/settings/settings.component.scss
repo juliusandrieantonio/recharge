@@ -1,0 +1,15 @@
+:host {
+    height: 100%;
+    padding: 12px;
+    overflow-y: hidden;
+}
+
+.settings-card {
+  height: 100%;
+}
+
+.scroll-content {
+  overflow-y: auto;
+  flex: 1;              /* makes the content take up all remaining height */
+  padding-right: 8px;   /* optional: prevents content from hiding behind scrollbar */
+}

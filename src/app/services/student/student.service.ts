@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Database, ref, onValue } from '@angular/fire/database';
+import { Database, ref, onValue, query, orderByKey, startAt } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { StudentStats } from '../../models/student-stats';
@@ -39,17 +39,24 @@ export class StudentService {
   public getRedeemptions(): Observable<StudentRedemptions[]> {
     return new Observable(observer => {
       if (!this.uid) throw new Error('Not logged in');
-      const redeemRef = ref(this.db, `redeem/${this.uid}`);
-      
+  
+      const now = Math.floor(Date.now() / 1000); // seconds
+      const thirtyDaysAgo = now - (30 * 24 * 60 * 60);
+  
+      const redeemRef = query(
+        ref(this.db, `redeem/${this.uid}`),
+        orderByKey(),
+        startAt(thirtyDaysAgo.toString()) // Firebase stores keys as strings
+      );
+  
       onValue(redeemRef, snapshot => {
         const data = snapshot.val();
         if (!data) {
           observer.next([]);
           return;
         }
-    
+  
         const redeems: StudentRedemptions[] = Object.values(data) as StudentRedemptions[];
-    
         observer.next(redeems);
       });
     });
