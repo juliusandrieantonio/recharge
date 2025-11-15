@@ -7,13 +7,13 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatButtonModule } from "@angular/material/button";
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { MatDividerModule } from "@angular/material/divider";
 import { AdminService } from '../../../services/admin/admin.service';
 import { DashboardData } from '../../../models/dashboard-data';
 import { MONTHS_NAME } from '../../../constants/constants';
 import { Machine } from '../../../models/machine';
 import { getYear, getYearMonth } from '../../../helper/date-helper';
+import { SettingsService } from '../../../services/settings/settings.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -40,14 +40,22 @@ export class AdminDashboardComponent implements OnInit {
     responsive: true,
     maintainAspectRatio: false // let it fill width & height
   };
+  public maxBottlePerBin = 0;
 
   constructor(
-    private adminService: AdminService
+    private adminService: AdminService,
+    private settingsService: SettingsService
   ) {
     
   }
 
   ngOnInit(): void {
+    this.settingsService.settings$.subscribe(data => {
+      if (data) {
+        this.maxBottlePerBin = data.bottles_per_trash_bag
+      }
+    });
+
     this.adminService.getDashboard(getYearMonth()).subscribe(data => {
       this.data = data;
     });
@@ -84,13 +92,13 @@ export class AdminDashboardComponent implements OnInit {
     })
   }
 
-  public getMachineStatus(level: number): { label: string, cssClass: string } {
-    if (level >= 100) {
+  public getMachineStatus(binLevel: number): { label: string; cssClass: string } {
+    if (binLevel >= this.maxBottlePerBin) {
       return { label: 'FULL', cssClass: 'red-pill' };
-    } else if (level < 60) {
-      return { label: 'LOW', cssClass: 'green-pill' };
-    } else {
+    } else if (binLevel >= this.maxBottlePerBin * 0.7) {
       return { label: 'ALMOST FULL', cssClass: 'warning-pill' };
+    } else {
+      return { label: 'LOW', cssClass: 'green-pill' };
     }
   }
 
@@ -101,5 +109,10 @@ export class AdminDashboardComponent implements OnInit {
     return Math.round(
       (machine.available_charging_slots / machine.charging_slots) * 100
     );
+  }
+  public emptyTrash(machineName: string) {
+    this.adminService.updateMachineBinLevel(machineName)
+      .then(() => console.log('Bin level updated'))
+      .catch(err => console.error(err));
   }
 }

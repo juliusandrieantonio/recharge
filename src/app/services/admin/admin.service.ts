@@ -222,4 +222,9 @@ export class AdminService {
       });
     });
   }
+
+  public async updateMachineBinLevel(machineName: string): Promise<void> {
+    const binRef = ref(this.db, `machine/${machineName}/bin_level`);
+    await set(binRef, 0);
+  }
 }

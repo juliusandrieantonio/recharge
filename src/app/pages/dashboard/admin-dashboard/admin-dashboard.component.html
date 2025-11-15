@@ -53,7 +53,7 @@
                                 <span [ngClass]="getMachineStatus(machine.bin_level).cssClass">
                                     {{ getMachineStatus(machine.bin_level).label }}
                                 </span>
-                                <span fxLayoutAlign="center">{{machine.bin_level}} / {{machine.bin_level}}</span>
+                                <span fxLayoutAlign="center">{{machine.bin_level}} / {{maxBottlePerBin}}</span>
                             </div>
                             <div fxFlex fxLayout="column" fxLayoutGap="14">
                                 <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
@@ -70,6 +70,10 @@
                             </div>
                         </div>
                         <span fxFlex fxLayoutAlign="center" class="secondary-text">Last updated {{machine.last_modified}}</span>
+                        <button mat-flat-button color="warn" (click)="emptyTrash(machine.name)">
+                            <mat-icon>delete</mat-icon>
+                            Empty Bin
+                        </button>
                     </mat-card-content>
                 </mat-card>
             }
