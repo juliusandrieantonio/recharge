@@ -7,5 +7,6 @@ export const environment = {
     storageBucket: "recharge-cc317.firebasestorage.app",
     messagingSenderId: "1009383318489",
     appId: "1:1009383318489:web:08cc084690fbed6abaafc8"
-  }
+  },
+  vercel_base_api: "https://recharge-zeta.vercel.app"
 };

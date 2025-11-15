@@ -7,5 +7,6 @@ export const environment = {
     storageBucket: process.env['FIREBASE_STORAGE_BUCKET'],
     messagingSenderId: process.env['FIREBASE_MESSAGING_SENDER_ID'],
     appId: process.env['FIREBASE_APP_ID']
-  }
+  },
+  vercel_base_api: "https://recharge-git-develop-julius-projects-173ae70a.vercel.app"
 };

@@ -15,7 +15,7 @@ import { environment } from '../../../environments/environment';
 export class AdminService {
   constructor(private db: Database, private auth: Auth, private http: HttpClient) {
   }
-  private BASE_URL = "https://recharge-jumihhaid-julius-projects-173ae70a.vercel.app"
+  private BASE_URL = environment.vercel_base_api;
 
   public getStudents(): Observable<UserInfo[]> {
     return new Observable(observer => {
