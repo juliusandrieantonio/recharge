@@ -1,4 +1,5 @@
 export const environment = {
+  production: true,
   firebaseConfig:  {
     apiKey: "AIzaSyD8UWQz3uL1877r2QMhzY769S5JsUgsDdc",
     authDomain: "recharge-cc317.firebaseapp.com",

@@ -32,7 +32,6 @@ export class UtilizationComponent implements OnInit {
 
   ngOnInit(): void {
     this.recyclingService.getUtilization(getYear()).subscribe(data => {
-      console.log(data)
       this.data = data;
     })
   }
