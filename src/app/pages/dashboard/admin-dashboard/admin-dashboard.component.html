@@ -38,8 +38,8 @@
                         <mat-card-subtitle>{{machine.name}}</mat-card-subtitle>
                         <span fxFlex></span>
                         <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4">
-                            <mat-icon [color]="machine.status ? 'primary': 'warn'">{{machine.status ? 'check_circle': 'cancel'}}</mat-icon>
-                            <span>{{machine.status ? 'Online': 'Offline'}}</span>
+                            <mat-icon   [ngClass]="machine.status ? 'icon-success' : 'icon-warning'">{{machine.status ? 'check_circle': 'warning'}}</mat-icon>
+                            <span>{{machine.status ? 'Online': 'Maintenance'}}</span>
                         </div>
                     </mat-card-header>
                     <mat-divider></mat-divider>

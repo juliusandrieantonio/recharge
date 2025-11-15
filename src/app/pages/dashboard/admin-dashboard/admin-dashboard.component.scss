@@ -5,6 +5,14 @@
     height: 100%;
 }
 
+.icon-success {
+  color: vars.$success-color;
+}
+
+.icon-warning {
+  color: vars.$warning-color;
+}
+
 .icon-image {
     width: 48px;
     height: 48px;
