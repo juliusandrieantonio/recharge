@@ -39,3 +39,68 @@
     cursor: pointer;
     margin-left: 4px;
 }
+
+.terms-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.terms-popup {
+  background: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  text-align: left;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.25s ease-in;
+}
+
+.terms-popup button {
+  display: block;
+  margin: 16px auto 0;
+}
+
+.terms-section a {
+  color: #1976d2;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.btn-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+
+
+/* ✅ Ensure link is clickable inside mat-checkbox */
+mat-checkbox .mat-checkbox-layout {
+  pointer-events: auto !important;
+}
+
+.terms-link {
+  color: #1976d2;
+  text-decoration: underline;
+  cursor: pointer;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 10; /* ensures it's above any overlays */
+}
+
+.terms-section {
+  position: relative;
+  z-index: 5;
+}
+
+/* Ensure spinner overlay doesn't block underlying elements when hidden */
+.spinner-overlay {
+  z-index: 1001;
+}
