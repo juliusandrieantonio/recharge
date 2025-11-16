@@ -8,15 +8,14 @@
   <!-- Partner Recycling Facilities -->
   <mat-card fxFlex appearance="raised" class="responsive-card">
     <mat-card-content fxLayout="column" fxLayoutGap="14px">
+      
+      <div fxLayout="row" fxLayoutAlign="space-between center">
         <h3>Partner Recycling Facilities</h3>
-
-      <!-- <div fxLayout="row" fxLayoutAlign="space-between center">
         <button mat-flat-button color="accent" (click)="onAddRecycling()">
-          <h3>Partner Recycling Facilities</h3>
-          <mat-icon svgIcon="facility"></mat-icon>
+          <mat-icon>add</mat-icon>
           Add Facility
         </button>
-      </div> -->
+      </div>
 
       <div class="table-container">
         <table mat-table [dataSource]="facilityInfoDataSource" class="mat-elevation-z1 full-width-table">

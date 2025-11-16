@@ -25,8 +25,8 @@
                     <mat-card-title>{{data?.available_points}}</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <button mat-flat-button color="primary" id="redeem-btn" (click)="goToRedeem()">Redeem</button>
-                    <p class="secondary-text">1 point = 5 minutes of charging time</p>
+                    <button mat-flat-button id="redeem-btn">Redeem</button>
+                    <p class="secondary-text">1 point = {{MINUTES_PER_BOTTLE}} minutes of charging time</p>
                 </mat-card-content>
             </mat-card>
         </div>
@@ -64,7 +64,7 @@
                         <mat-card-content>
                             <span class="primary">{{data?.waste_diverted}} kg</span>
                             <p>Plastic waste diverted</p>
-                            <p class="secondary-text" style="text-align: start;">100 bottles = 2 kg of plastic waste</p>
+                            <p class="secondary-text" style="text-align: start;">{{BOTTLES_PER_KG_WASTE}} bottles = 2 kg of plastic waste</p>
                         </mat-card-content>
                     </mat-card>
     
@@ -76,7 +76,7 @@
                         <mat-card-content>
                             <span class="primary">{{data?.energy_saved}} kWh</span>
                             <p>Energy saved by recycling bottles</p>
-                            <p class="secondary-text" style="text-align: start;">1 bottle = 0.0058 kWh</p>
+                            <p class="secondary-text" style="text-align: start;">1 bottle = {{ENERGY_PER_BOTTLE}} kWh</p>
                         </mat-card-content>
                     </mat-card>
                 </div>

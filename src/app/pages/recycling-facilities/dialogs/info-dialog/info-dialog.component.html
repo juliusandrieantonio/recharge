@@ -2,42 +2,121 @@
 
 <mat-dialog-content class="padding-top-14">
   <mat-progress-bar *ngIf="loading"></mat-progress-bar>
+
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
+
   <form [formGroup]="facilityForm">
+
+    <!-- Facility Name -->
     <mat-form-field appearance="outline" style="width: 100%;">
       <mat-label>Facility Name</mat-label>
       <input matInput formControlName="facility_name" />
+      <mat-error *ngIf="facilityForm.get('facility_name')?.hasError('required')">
+        Facility name is required.
+      </mat-error>
     </mat-form-field>
 
+    <!-- Phone Number -->
     <mat-form-field appearance="outline" style="width: 100%;">
       <mat-label>Phone Number</mat-label>
-      <input matInput formControlName="phone_number" />
+      <input matInput formControlName="phone_number"
+             inputmode="numeric" pattern="[0-9]*"
+             (keypress)="allowOnlyNumbers($event)" />
+      <mat-error *ngIf="facilityForm.get('phone_number')?.hasError('required')">
+        Phone number is required.
+      </mat-error>
     </mat-form-field>
 
-    <!-- Show these only when adding a new facility -->
+    <!-- Show only when ADDING -->
     <ng-container *ngIf="!isEditMode">
+
+      <!-- Email -->
       <mat-form-field appearance="outline" style="width: 100%;">
         <mat-label>Email</mat-label>
         <input type="email" matInput formControlName="email" />
+        <mat-error *ngIf="facilityForm.get('email')?.hasError('required')">
+          Email is required.
+        </mat-error>
+        <mat-error *ngIf="facilityForm.get('email')?.hasError('email')">
+          Enter a valid email address.
+        </mat-error>
       </mat-form-field>
 
+      <!-- Password -->
       <mat-form-field appearance="outline" style="width: 100%;">
-        <mat-label>Password</mat-label>
-        <input type="password" matInput formControlName="password" />
+        <mat-label>Pin</mat-label>
+        <input matInput 
+               formControlName="password"
+               [type]="isHidden ? 'text' : 'password'"
+               inputmode="numeric" 
+               pattern="[0-9]*"
+               (keypress)="allowOnlyNumbers($event)"
+               (paste)="blockNonNumericPaste($event)" />
+
+        <button mat-icon-button matSuffix type="button" (click)="isHidden = !isHidden">
+          <mat-icon>{{ isHidden ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+
+        <mat-error *ngIf="facilityForm.get('password')?.hasError('required')">
+          Pin is required.
+        </mat-error>
+
+        <mat-error *ngIf="facilityForm.get('password')?.hasError('minlength')">
+          Pin must be at least 6 characters long.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Confirm Password -->
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Confirm Pin</mat-label>
+        <input matInput 
+               formControlName="confirm_password"
+               [type]="isHidden ? 'text' : 'password'"
+               inputmode="numeric"
+               pattern="[0-9]*"
+               (keypress)="allowOnlyNumbers($event)"
+               (paste)="blockNonNumericPaste($event)" />
+        <button mat-icon-button matSuffix type="button" (click)="isHidden = !isHidden">
+          <mat-icon>{{ isHidden ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="facilityForm.get('confirm_password')?.hasError('required')">
+          Please confirm your pin.
+        </mat-error>
+
+        <mat-error *ngIf="facilityForm.get('confirm_password')?.hasError('minlength')">
+          Confirm pin must be at least 6 characters long.
+        </mat-error>
+
+        <mat-error *ngIf="facilityForm.get('confirm_password')?.hasError('mismatch')">
+          pin do not match.
+        </mat-error>
       </mat-form-field>
     </ng-container>
 
-    <mat-form-field appearance="outline" style="width: 100%;">
+    <!-- Only when EDIT MODE -->
+    <mat-form-field appearance="outline" style="width: 100%;" *ngIf="isEditMode">
       <mat-label>Total Bottles Collected</mat-label>
       <input type="number" matInput formControlName="total_bottles_collected" />
+      <mat-error *ngIf="facilityForm.get('total_bottles_collected')?.hasError('required')">
+        Total bottles collected is required.
+      </mat-error>
+
+      <mat-error *ngIf="facilityForm.get('total_bottles_collected')?.hasError('min')">
+        Value cannot be negative.
+      </mat-error>
     </mat-form-field>
 
-    <mat-checkbox color="primary" formControlName="status">
+    <mat-checkbox color="primary" formControlName="status" *ngIf="isEditMode">
       Active
     </mat-checkbox>
+
   </form>
+
+  <p *ngIf="!isEditMode" class="blue-background padding-14 round-corners">
+    <strong>Note:</strong> The facility will log in using their phone number and the password you set here.
+  </p>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

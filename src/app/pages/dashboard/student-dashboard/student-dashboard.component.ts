@@ -13,7 +13,7 @@ import { StudentStats } from '../../../models/student-stats';
 import { MONTHS_NAME } from '../../../constants/constants';
 import { getYear } from '../../../helper/date-helper';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { SettingsService } from '../../../services/settings/settings.service';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -34,15 +34,17 @@ import { Router } from '@angular/router';
 export class StudentDashboardComponent implements OnInit {
   public data: StudentStats | undefined;
   public barChartData: ChartConfiguration<'bar'>['data'] | undefined;
-  public BOTTLES_PER_CHAIR = 600;
-  public BOTTLES_PER_KG_WASTE = 50;
+  public BOTTLES_PER_CHAIR = 50;
+  public MINUTES_PER_BOTTLE = 0;
+  public BOTTLES_PER_KG_WASTE = 100;
   public ENERGY_PER_BOTTLE = 0.0058;
   public WASTE_TARGET_KG = 2;
   public ENERGY_TARGET_KWH = 20;
 
-constructor(private studentService: StudentService, private router: Router) { 
+  constructor(
+    private studentService: StudentService, 
+    private settingsService: SettingsService) {}
 
-  }
   ngOnInit(): void {
     this.studentService.getStudent().subscribe((data) => {
       this.data = data;
@@ -74,6 +76,19 @@ constructor(private studentService: StudentService, private router: Router) {
       };
 
       
+    });
+
+    this.loadSettings()
+  }
+
+  async loadSettings() {
+    this.settingsService.settings$.subscribe(data => {
+      if (data) {
+        this.BOTTLES_PER_CHAIR = data.bottles_per_school_chair;
+        this.ENERGY_PER_BOTTLE = data.energy_save_per_bottle;
+        this.BOTTLES_PER_KG_WASTE = data.bottles_per_kg_waste;
+        this.MINUTES_PER_BOTTLE = data.minutes_per_points;
+      }
     });
   }
 
